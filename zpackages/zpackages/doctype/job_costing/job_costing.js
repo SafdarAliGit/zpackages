@@ -49,7 +49,7 @@ frappe.ui.form.on('Job Costing Items', {
                     frappe.model.set_value(cdt, cdn, 'wastage_weight', wastage_weight);
                     var weight_with_wastage = d.as_per_size + d.wastage_weight;
                     frappe.model.set_value(cdt, cdn, 'weight_with_wastage', weight_with_wastage);
-                    var final_weight_with_wastage = parseFloat(d.weight_with_wastage) + parseInt(d.finish_qty);
+                    var final_weight_with_wastage = parseFloat(d.weight_with_wastage) * parseInt(d.finish_qty);
                     frappe.model.set_value(cdt, cdn, 'final_weight_with_wastage', final_weight_with_wastage);
                     console.log(final_weight_with_wastage);
                 }
