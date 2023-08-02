@@ -1,0 +1,104 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:JC-{YY}-{#####}",
+ "creation": "2023-08-02 08:45:22.390404",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "job_costing",
+  "customer_article_code",
+  "amended_from",
+  "qty",
+  "column_break_qtjll",
+  "width",
+  "length",
+  "gsm",
+  "raw_item_details_section",
+  "job_costing_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "job_costing",
+   "fieldtype": "Data",
+   "label": "Job costing"
+  },
+  {
+   "fieldname": "customer_article_code",
+   "fieldtype": "Link",
+   "label": "Customer Article Code",
+   "options": "Item"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Job Costing",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Data",
+   "label": "Qty"
+  },
+  {
+   "fieldname": "width",
+   "fieldtype": "Data",
+   "label": "Width"
+  },
+  {
+   "fieldname": "length",
+   "fieldtype": "Data",
+   "label": "Length"
+  },
+  {
+   "fieldname": "gsm",
+   "fieldtype": "Data",
+   "label": "GSM"
+  },
+  {
+   "fieldname": "raw_item_details_section",
+   "fieldtype": "Section Break",
+   "label": "Raw Item Details"
+  },
+  {
+   "fieldname": "job_costing_items",
+   "fieldtype": "Table",
+   "options": "Job Costing Items"
+  },
+  {
+   "fieldname": "column_break_qtjll",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2023-08-02 12:13:38.711100",
+ "modified_by": "Administrator",
+ "module": "zpackages",
+ "name": "Job Costing",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
