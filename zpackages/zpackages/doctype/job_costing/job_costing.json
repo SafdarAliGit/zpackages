@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:JC-{YY}-{#####}",
+ "autoname": "field:job_costing",
  "creation": "2023-08-02 08:45:22.390404",
  "default_view": "List",
  "doctype": "DocType",
@@ -23,7 +23,8 @@
   {
    "fieldname": "job_costing",
    "fieldtype": "Data",
-   "label": "Job costing"
+   "label": "Job costing",
+   "unique": 1
   },
   {
    "fieldname": "customer_article_code",
@@ -78,11 +79,11 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-08-02 12:13:38.711100",
+ "modified": "2023-08-02 20:44:56.288427",
  "modified_by": "Administrator",
  "module": "zpackages",
  "name": "Job Costing",
- "naming_rule": "Expression",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
