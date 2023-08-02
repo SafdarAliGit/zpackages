@@ -2,7 +2,17 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Process Wastage', {
-	// refresh: function(frm) {
+    // refresh: function(frm) {
 
-	// }
+    // }
+
+
+});
+
+frappe.ui.form.on('Process Wastage Items', {
+    // refresh: function(frm) {
+
+    // }
+
+
 });
