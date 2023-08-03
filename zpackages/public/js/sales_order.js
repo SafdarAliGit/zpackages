@@ -170,8 +170,8 @@ frappe.ui.form.on("Sales Order", {
 								entry.color_wastage = e.color_wastage,
 								entry.wastage_weight = e.wastage_weight,
 								entry.weight_with_wastage = e.weight_with_wastage,
-								entry.finish_qty = e.finish_qty,
-								entry.final_weight_with_wastage = e.final_weight_with_wastage,
+								entry.finish_qty = item.qty,
+								entry.final_weight_with_wastage = e.weight_with_wastage * item.qty,
 								entry.remarks = e.remarks
 
 						})
