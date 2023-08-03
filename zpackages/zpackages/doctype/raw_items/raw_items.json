@@ -1,0 +1,165 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-08-03 08:45:30.888443",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "finish_material",
+  "raw_material",
+  "gsm",
+  "width",
+  "length",
+  "ups",
+  "as_per_size",
+  "sheet_qty",
+  "color",
+  "color_wastage_percent",
+  "color_wastage",
+  "wastage_weight",
+  "weight_with_wastage",
+  "finish_qty",
+  "final_weight_with_wastage",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "raw_material",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Raw Material",
+   "options": "Item"
+  },
+  {
+   "default": "0",
+   "fieldname": "gsm",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "GSM"
+  },
+  {
+   "default": "0",
+   "fieldname": "width",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Width"
+  },
+  {
+   "default": "0",
+   "fieldname": "length",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Length"
+  },
+  {
+   "default": "0",
+   "fieldname": "ups",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "UPS"
+  },
+  {
+   "default": "0",
+   "fieldname": "as_per_size",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "As Per Size",
+   "precision": "5",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "sheet_qty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Sheet Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Color",
+   "options": "----\n1\n2\n3\n4\n5\n6\n7\n8\n9"
+  },
+  {
+   "default": "0",
+   "fieldname": "color_wastage_percent",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Color Wastage Percent",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "color_wastage",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Color Wastage",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "wastage_weight",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Wastage Weight",
+   "precision": "5",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "weight_with_wastage",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Weight With Wastage",
+   "precision": "5",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "finish_qty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Finish Qty",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "final_weight_with_wastage",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Final Weight With Wastage",
+   "precision": "5",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "finish_material",
+   "fieldtype": "Link",
+   "label": "Finish Material",
+   "options": "Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-08-03 10:35:47.877487",
+ "modified_by": "Administrator",
+ "module": "zpackages",
+ "name": "Raw Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
