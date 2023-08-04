@@ -22,7 +22,11 @@
   "weight_with_wastage",
   "finish_qty",
   "final_weight_with_wastage",
-  "remarks"
+  "finish_size",
+  "finish_wt",
+  "wt_diff",
+  "finish_wastage_percentage",
+  "total_sheet_qty"
  ],
  "fields": [
   {
@@ -138,22 +142,52 @@
    "read_only": 1
   },
   {
-   "fieldname": "remarks",
-   "fieldtype": "Text",
-   "in_list_view": 1,
-   "label": "Remarks"
-  },
-  {
    "fieldname": "finish_material",
    "fieldtype": "Link",
    "label": "Finish Material",
    "options": "Item"
+  },
+  {
+   "default": "0",
+   "fieldname": "finish_size",
+   "fieldtype": "Float",
+   "label": "Finish Size",
+   "precision": "5",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "finish_wt",
+   "fieldtype": "Float",
+   "label": "Finish Wt",
+   "precision": "5",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "wt_diff",
+   "fieldtype": "Float",
+   "label": "Wt Diff",
+   "precision": "5",
+   "read_only": 1
+  },
+  {
+   "fieldname": "finish_wastage_percentage",
+   "fieldtype": "Percent",
+   "label": "F Wastage %"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_sheet_qty",
+   "fieldtype": "Data",
+   "label": "Total Sheet Qty",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-08-03 10:35:47.877487",
+ "modified": "2023-08-04 11:21:29.138594",
  "modified_by": "Administrator",
  "module": "zpackages",
  "name": "Raw Items",

@@ -47,17 +47,7 @@ def get_job_costing_items(**args):
                 child.width,
                 child.length,
                 child.ups,
-                child.ups,
-                child.as_per_size,
-                child.sheet_qty,
                 child.color,
-                child.color_wastage_percent,
-                child.color_wastage,
-                child.wastage_weight,
-                child.weight_with_wastage,
-                child.finish_qty,
-                child.final_weight_with_wastage,
-                child.remarks
                 )
         .where(
             (parent.job_costing == job_costing)

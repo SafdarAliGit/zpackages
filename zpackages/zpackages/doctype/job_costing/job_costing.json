@@ -11,11 +11,7 @@
   "job_costing",
   "customer_article_code",
   "amended_from",
-  "qty",
   "column_break_qtjll",
-  "width",
-  "length",
-  "gsm",
   "raw_item_details_section",
   "job_costing_items"
  ],
@@ -29,7 +25,7 @@
   {
    "fieldname": "customer_article_code",
    "fieldtype": "Link",
-   "label": "Customer Article Code",
+   "label": "Item Code",
    "options": "Item"
   },
   {
@@ -40,26 +36,6 @@
    "options": "Job Costing",
    "print_hide": 1,
    "read_only": 1
-  },
-  {
-   "fieldname": "qty",
-   "fieldtype": "Data",
-   "label": "Qty"
-  },
-  {
-   "fieldname": "width",
-   "fieldtype": "Data",
-   "label": "Width"
-  },
-  {
-   "fieldname": "length",
-   "fieldtype": "Data",
-   "label": "Length"
-  },
-  {
-   "fieldname": "gsm",
-   "fieldtype": "Data",
-   "label": "GSM"
   },
   {
    "fieldname": "raw_item_details_section",
@@ -79,7 +55,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-08-02 20:44:56.288427",
+ "modified": "2023-08-04 11:47:57.947872",
  "modified_by": "Administrator",
  "module": "zpackages",
  "name": "Job Costing",

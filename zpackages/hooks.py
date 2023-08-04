@@ -200,4 +200,4 @@ doctype_js = {"Sales Order": "public/js/sales_order.js"}
 # auth_hooks = [
 #	"zpackages.auth.validate"
 # ]
-required_apps = ["erpnext"]
+# required_apps = ["erpnext"]

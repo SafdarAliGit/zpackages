@@ -140,11 +140,11 @@ frappe.ui.form.on("Sales Order", {
 	},
 	// CUSTOM WORK
 
-    fetch_raw_items: function (frm) {
+    fetch_raw_items: function (frm,cdt, cdn) {
 
 		frm.doc.items.forEach(function (item) {
 
-			if(item.job_costing) {
+			if (item.job_costing) {
 				frm.doc.raw_items = []
 				frappe.call({
 					method: "zpackages.zpackages.doctype.utils.get_job_costing_items",
@@ -152,39 +152,72 @@ frappe.ui.form.on("Sales Order", {
 						job_costing: item.job_costing
 					},
 					callback: function (response) {
-
 						var childRecords = response.message;
 
 						$.each(childRecords, function (_i, e) {
+
 							let entry = frm.add_child("raw_items");
-								entry.finish_material = e.customer_article_code ,
+							entry.finish_material = e.customer_article_code ,
 								entry.raw_material = e.raw_material,
 								entry.gsm = e.gsm,
 								entry.width = e.width,
 								entry.length = e.length,
 								entry.ups = e.ups,
-								entry.as_per_size = e.as_per_size,
-								entry.sheet_qty = e.sheet_qty,
+								entry.as_per_size = (((e.gsm * e.width * e.length) / 15500) / 100) / e.ups,
+								entry.sheet_qty = Math.round(item.qty / e.ups),
 								entry.color = e.color,
-								entry.color_wastage_percent = e.color_wastage_percent,
-								entry.color_wastage = e.color_wastage,
-								entry.wastage_weight = e.wastage_weight,
-								entry.weight_with_wastage = e.weight_with_wastage,
+								entry.color_wastage_percent = 0,
+								entry.color_wastage = 0,
+								entry.wastage_weight = 0,
+								entry.weight_with_wastage = 0,
 								entry.finish_qty = item.qty,
-								entry.final_weight_with_wastage = e.weight_with_wastage * item.qty,
-								entry.remarks = e.remarks
-
+								entry.final_weight_with_wastage = 0,
+								entry.finish_size = ((parseFloat(item.length) * parseFloat(item.width) * e.gsm) / 15500) / 100,
+								entry.finish_wt = entry.finish_size * item.qty,
+								entry.wt_diff = 0,
+								entry.finish_wastage_percentage = 0
 						})
 						frm.refresh_field("raw_items")
+
+						// Ajax call to fetch wast %
+						frm.doc.raw_items.forEach(function (item, i) { // Add the index 'i' as the second argument to forEach
+							frappe.call({
+								method: 'zpackages.zpackages.doctype.utils.get_process_wast_percent',
+								args: {
+									color: item.color,
+									sheet_qty: item.sheet_qty,
+								},
+								callback: function (response) {
+									if (response.message) {
+										frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'color_wastage_percent', response.message);
+										var color_wastage = item.sheet_qty * (response.message / 100)
+										frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'color_wastage', color_wastage);
+										var wastage_weight = item.as_per_size * (response.message / 100)
+										frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'wastage_weight', wastage_weight);
+										var weight_with_wastage = wastage_weight + item.as_per_size;
+										frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'weight_with_wastage', weight_with_wastage);
+										var final_weight_with_wastage = weight_with_wastage * item.finish_qty;
+										frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'final_weight_with_wastage', final_weight_with_wastage);
+										var wt_diff = final_weight_with_wastage - item.finish_wt
+										frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'wt_diff', wt_diff);
+										var finish_wastage_percentage = wt_diff * (100 / final_weight_with_wastage)
+										frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'finish_wastage_percentage', finish_wastage_percentage);
+										var total_sheet_qty = item.sheet_qty + color_wastage;
+										frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'total_sheet_qty', total_sheet_qty);
+									}
+								}
+							});
+						});
+
 
 					}
 				});
 
 			}
 
-    });
+		});
+	},
 
-    }
 });
 
 frappe.ui.form.on("Sales Order Item", {
@@ -201,8 +234,10 @@ frappe.ui.form.on("Sales Order Item", {
 		if(!frm.doc.delivery_date) {
 			erpnext.utils.copy_value_in_all_rows(frm.doc, cdt, cdn, "items", "delivery_date");
 		}
-	}
+	},
+
 });
+
 
 erpnext.selling.SalesOrderController = class SalesOrderController extends erpnext.selling.SellingController {
 	onload(doc, dt, dn) {
