@@ -57,3 +57,32 @@ def get_job_costing_items(**args):
     )
     return query.run(as_dict=True)
 
+
+@frappe.whitelist()
+def raw_material_stock_entry(source_name):
+    source_name = frappe.get_doc("Sales Order", source_name)
+    if not source_name.stock_entry_done:
+        try:
+            se = frappe.new_doc("Stock Entry")
+            se.stock_entry_type = "Material Transfer"
+            se.from_warehouse = f"Stores - {get_company_abbr()}"
+            se.to_warehouse = f"Work In Progress - {get_company_abbr()}"
+            for item in source_name.raw_items:
+                it = se.append("items", {})
+                it.item_code = item.raw_material
+                it.qty = round(item.final_weight_with_wastage)
+            se.save()
+            source_name.stock_entry_done = 1
+            source_name.save()
+            return se
+        except Exception as error:
+            frappe.throw(error)
+    else:
+        frappe.throw("Raw Stock Entry already created")
+
+
+def get_company_abbr():
+    company_name = frappe.defaults.get_defaults().company
+    company = frappe.get_doc('Company', company_name)
+    company_abbr = company.get('abbr')
+    return company_abbr

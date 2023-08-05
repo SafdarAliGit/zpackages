@@ -71,7 +71,7 @@ frappe.ui.form.on("Sales Order", {
 					frm.add_custom_button(__('Raw Stock Entry'), function () {
 
 						frappe.call({
-							method: 'zpackages.overrides.sales_order_overrides.raw_material_stock_entry',
+							method: 'zpackages.zpackages.doctype.utils.raw_material_stock_entry',
 							args: {
 								'source_name': frm.doc.name
 							},

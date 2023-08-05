@@ -95,9 +95,9 @@ doctype_js = {"Sales Order": "public/js/sales_order.js"}
 # ---------------
 # Override standard doctype classes
 
-override_doctype_class = {
-	"Sales Order": "zpackages.overrides.sales_order_overrides.SalesOrderOverrides"
-}
+# override_doctype_class = {
+# 	"Sales Order": "zpackages.overrides.sales_order_overrides.SalesOrderOverrides"
+# }
 
 # Document Events
 # ---------------
