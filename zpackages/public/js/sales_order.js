@@ -4,6 +4,7 @@
 {% include 'erpnext/selling/sales_common.js' %}
 
 frappe.ui.form.on("Sales Order", {
+
 	setup: function(frm) {
 		frm.custom_make_buttons = {
 			'Delivery Note': 'Delivery Note',
@@ -48,6 +49,7 @@ frappe.ui.form.on("Sales Order", {
 		frm.set_df_property('packed_items', 'cannot_delete_rows', true);
 	},
 	refresh: function(frm) {
+
 		if(frm.doc.docstatus === 1 && frm.doc.status !== 'Closed'
 			&& flt(frm.doc.per_delivered, 6) < 100 && flt(frm.doc.per_billed, 6) < 100) {
 			frm.add_custom_button(__('Update Items'), () => {
@@ -63,6 +65,26 @@ frappe.ui.form.on("Sales Order", {
 		if (frm.doc.docstatus === 0 && frm.doc.is_internal_customer) {
 			frm.events.get_items_from_internal_purchase_order(frm);
 		}
+			// CUSTOM WORK
+			 if (frm.doc.docstatus === 1 && frm.doc.status !== 'Closed' && !frm.doc.stock_entry_done)
+					 {
+					frm.add_custom_button(__('Raw Stock Entry'), function () {
+
+						frappe.call({
+							method: 'zpackages.overrides.sales_order_overrides.raw_material_stock_entry',
+							args: {
+								'source_name': frm.doc.name
+							},
+							callback: function (r) {
+								if (!r.exc) {
+									frappe.model.sync(r.message);
+									frappe.set_route("Form", r.message.doctype, r.message.name);
+								}
+							}
+						});
+
+					}).addClass("btn-primary");
+				}
 	},
 
 	get_items_from_internal_purchase_order(frm) {
@@ -216,7 +238,8 @@ frappe.ui.form.on("Sales Order", {
 			}
 
 		});
-	},
+	}
+
 
 });
 
