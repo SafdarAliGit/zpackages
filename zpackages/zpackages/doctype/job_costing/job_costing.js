@@ -31,17 +31,17 @@ frappe.ui.form.on('Job Costing Items', {
     //         frappe.show_alert("Set Finish Qty");
     //     }
     // },
-    job_costing_items_add: function (frm, cdt, cdn) {
-
-        frm.fields_dict['job_costing_items'].grid.get_field('raw_material').get_query = function (doc, cdt, cdn) {
-            return {
-                filters: [
-                    ["Item", "item_group", "=", 'Raw Material'],
-                ]
-            };
-        };
-
-    },
+    // job_costing_items_add: function (frm, cdt, cdn) {
+    //
+    //     frm.fields_dict['job_costing_items'].grid.get_field('raw_material').get_query = function (doc, cdt, cdn) {
+    //         return {
+    //             filters: [
+    //                 ["Item", "item_group", "=", 'Raw Material'],
+    //             ]
+    //         };
+    //     };
+    //
+    // },
     // color: function (frm, cdt, cdn) {
     //     var d = locals[cdt][cdn];
     //     // Ajax call

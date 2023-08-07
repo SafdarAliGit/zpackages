@@ -5,6 +5,7 @@
 
 frappe.ui.form.on("Sales Order", {
 
+
 	setup: function(frm) {
 		frm.custom_make_buttons = {
 			'Delivery Note': 'Delivery Note',
@@ -112,6 +113,21 @@ frappe.ui.form.on("Sales Order", {
 	},
 
 	onload: function(frm) {
+        // custom
+        frm.doc.raw_items.forEach(function (item, i) {
+            frm.set_query('raw_item', 'raw_items', () => {
+                return {
+                    filters: {
+                        'item_attribute': item.raw_material
+                    }
+                }
+            })
+
+        });
+
+        frm.fields_dict['raw_items'].refresh();
+
+    // custom end
 		if (!frm.doc.transaction_date){
 			frm.set_value('transaction_date', frappe.datetime.get_today())
 		}
@@ -152,6 +168,8 @@ frappe.ui.form.on("Sales Order", {
 		}
 
 		frm.ignore_doctypes_on_cancel_all = ['Purchase Order'];
+
+
 	},
 
 	delivery_date: function(frm) {
@@ -244,6 +262,7 @@ frappe.ui.form.on("Sales Order", {
 });
 
 frappe.ui.form.on("Sales Order Item", {
+
 	item_code: function(frm,cdt,cdn) {
 		var row = locals[cdt][cdn];
 		if (frm.doc.delivery_date) {
@@ -260,6 +279,7 @@ frappe.ui.form.on("Sales Order Item", {
 	},
 
 });
+
 
 
 erpnext.selling.SalesOrderController = class SalesOrderController extends erpnext.selling.SellingController {

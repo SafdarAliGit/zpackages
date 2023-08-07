@@ -17,6 +17,8 @@ def get_process_wast_percent(**args):
         sq = 250
     elif sheet_qty >= 150 and sheet_qty < 250:
         sq = 150
+    elif sheet_qty >= 1 and sheet_qty < 150:
+        sq = 1
     else:
         frappe.throw("Invalid Sheet Qty")
     pwi = frappe.qb.DocType("Process Wastage items")
@@ -69,7 +71,10 @@ def raw_material_stock_entry(source_name):
             se.to_warehouse = f"Work In Progress - {get_company_abbr()}"
             for item in source_name.raw_items:
                 it = se.append("items", {})
-                it.item_code = item.raw_material
+                it.item_attribute = item.raw_material
+                if not item.raw_item:
+                    frappe.throw('Raw Item not selected')
+                it.item_code = item.raw_item
                 it.qty = round(item.final_weight_with_wastage)
             se.save()
             source_name.stock_entry_done = 1
