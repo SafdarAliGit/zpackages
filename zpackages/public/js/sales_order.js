@@ -281,6 +281,7 @@ frappe.ui.form.on("Sales Order Item", {
 
     job_costing: function (frm,cdt, cdn) {
 			var row = locals[cdt][cdn];
+			if(row.length && row.width){
 				frappe.call({
 					method: "zpackages.zpackages.doctype.utils.get_gsm",
 					args: {
@@ -299,6 +300,10 @@ frappe.ui.form.on("Sales Order Item", {
 					}
 
 				});
+			}else {
+				frappe.throw('Length and width required');
+			}
+
 		}
 
 });
