@@ -91,3 +91,23 @@ def get_company_abbr():
     company = frappe.get_doc('Company', company_name)
     company_abbr = company.get('abbr')
     return company_abbr
+
+
+@frappe.whitelist()
+def get_gsm(**args):
+    job_costing = args.get('job_costing')
+    parent = frappe.qb.DocType("Job Costing")
+    child = frappe.qb.DocType("Job Costing Items")
+    query = (
+        frappe.qb.from_(parent)
+        .from_(child)
+        .select(
+            child.gsm
+        )
+        .where(
+            (parent.job_costing == job_costing)
+            & (parent.name == child.parent)
+            & (parent.docstatus == 1)
+        )
+    )
+    return query.run(as_dict=True)[0].gsm

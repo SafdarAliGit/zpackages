@@ -114,18 +114,18 @@ frappe.ui.form.on("Sales Order", {
 
 	onload: function(frm) {
         // custom
-        frm.doc.raw_items.forEach(function (item, i) {
-            frm.set_query('raw_item', 'raw_items', () => {
-                return {
-                    filters: {
-                        'item_attribute': item.raw_material
-                    }
-                }
-            })
-
-        });
-
-        frm.fields_dict['raw_items'].refresh();
+        // frm.doc.raw_items.forEach(function (item, i) {
+        //     frm.set_query('raw_item', 'raw_items', () => {
+        //         return {
+        //             filters: {
+        //                 'item_attribute': item.raw_material
+        //             }
+        //         }
+        //     })
+		//
+        // });
+		//
+        // frm.fields_dict['raw_items'].refresh();
 
     // custom end
 		if (!frm.doc.transaction_date){
@@ -277,6 +277,29 @@ frappe.ui.form.on("Sales Order Item", {
 			erpnext.utils.copy_value_in_all_rows(frm.doc, cdt, cdn, "items", "delivery_date");
 		}
 	},
+	// CUSTOM WORK
+
+    job_costing: function (frm,cdt, cdn) {
+			var row = locals[cdt][cdn];
+				frappe.call({
+					method: "zpackages.zpackages.doctype.utils.get_gsm",
+					args: {
+						job_costing: row.job_costing
+					},
+					callback: function (response) {
+						if(response.message){
+							frappe.model.set_value(cdt,cdn, 'gsm',response.message)
+							var weight_per_piece = ((row.length * row.width * response.message)/15500)/100;
+							frappe.model.set_value(cdt,cdn, 'weight_per_piece',weight_per_piece)
+
+						}else {
+							frappe.throw('GSM Not found');
+						}
+
+					}
+
+				});
+		}
 
 });
 

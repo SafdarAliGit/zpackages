@@ -635,21 +635,21 @@ frappe.ui.form.on('Stock Entry', {
             });
         }
     },
-    onload: function (frm) {
-        frm.doc.items.forEach(function (item) {
-            frm.set_query('item_code', 'items', () => {
-                return {
-                    filters: {
-                        'item_attribute': item.item_attribute
-                    }
-                }
-            })
-        });
-
-        frm.fields_dict['items'].refresh();
-
-
-    },
+    // onload: function (frm) {
+    //     frm.doc.items.forEach(function (item) {
+    //         frm.set_query('item_code', 'items', () => {
+    //             return {
+    //                 filters: {
+    //                     'item_attribute': item.item_attribute
+    //                 }
+    //             }
+    //         })
+    //     });
+    //
+    //     frm.fields_dict['items'].refresh();
+    //
+    //
+    // },
 });
 
 frappe.ui.form.on('Stock Entry Detail', {
