@@ -185,7 +185,7 @@ def get_data(filters):
                 `tabRaw Items`.final_weight_with_wastage as total_wastage_with_weight,
                 `tabDelivery Note Item`.length as dni_length,
                 `tabDelivery Note Item`.width as dni_width,
-                `tabRaw Items`.as_per_size as finish_size,
+                `tabRaw Items`.finish_size,
                 `tabDelivery Note Item`.qty as delivered_qty,
                 `tabDelivery Note Item`.weight_total                      
             FROM
