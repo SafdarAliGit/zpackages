@@ -12,7 +12,12 @@ frappe.query_reports["EFS Report"] = {
             "label": __("Sales Order"),
             "fieldtype": "Link",
             "options": 'Sales Order',
-            "reqd": 1  // Set the "reqd" attribute to make the filter mandatory
+            "get_query": function () {
+                var customer = frappe.query_report.get_filter_value('customer');
+                return {
+                    filters: {"customer": customer}
+                };
+            },
         }
     ]
 };
