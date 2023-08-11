@@ -4,12 +4,8 @@ from frappe import _
 
 
 def execute(filters=None):
-    if not filters:
-        filters = {}
-    data = []
     columns = get_columns()
     data = get_data(filters)
-    print(data)
     return columns, data
 
 
@@ -163,46 +159,46 @@ def get_conditions(filters, doctype):
         conditions.append(f"`tab{doctype}`.customer = %(customer)s")
     if filters.get("sales_order"):
         conditions.append(f"`tab{doctype}`.name = %(sales_order)s")
-    # conditions.append(f"`tab{doctype}`.docstatus = 1")  # Include only submitted documents
-
+    conditions.append(f"`tab{doctype}`.docstatus = 1")  # Include only submitted documents
     return " AND ".join(conditions)
 
 
 def get_data(filters):
     data = []
     so_query = """SELECT
-                        so.name AS sales_order,
-                        so.customer,
-                        soi.item_code as finish_item,
-                        soi.qty,
-                        ri.raw_material as item_attribute,
-                        ri.gsm,
-                        ri.length,
-                        ri.width,
-                        ri.ups,
-                        ri.color,
-                        ri.as_per_size,
-                        ri.sheet_qty,
-                        ri.color_wastage as wastage_sheet,
-                        ri.color_wastage_percent as wastage_percent,
-                        ri.wastage_weight,
-                        ri.weight_with_wastage,
-                        ri.final_weight_with_wastage as total_wastage_with_weight,
-                        dni.length as dni_length,
-                        dni.width as dni_width,
-                        ri.as_per_size as finish_size,
-                        dni.qty as delivered_qty,
-                        dni.weight_total                      
-                    FROM
-                        `tabSales Order` so
-                    JOIN
-                        `tabSales Order Item` soi ON so.name = soi.parent
-                    JOIN
-                        `tabRaw Items` ri ON so.name = ri.parent
-                    JOIN
-                        `tabDelivery Note Item` dni ON so.name = dni.against_sales_order
-           
-                        """.format(conditions=get_conditions(filters, "Sales Order"))
+                `tabSales Order`.name AS sales_order,
+                `tabSales Order`.customer,
+                `tabSales Order Item`.item_code as finish_item,
+                `tabSales Order Item`.qty,
+                `tabRaw Items`.raw_material as item_attribute,
+                `tabRaw Items`.gsm,
+                `tabRaw Items`.length,
+                `tabRaw Items`.width,
+                `tabRaw Items`.ups,
+                `tabRaw Items`.color,
+                `tabRaw Items`.as_per_size,
+                `tabRaw Items`.sheet_qty,
+                `tabRaw Items`.color_wastage as wastage_sheet,
+                `tabRaw Items`.color_wastage_percent as wastage_percent,
+                `tabRaw Items`.wastage_weight,
+                `tabRaw Items`.weight_with_wastage,
+                `tabRaw Items`.final_weight_with_wastage as total_wastage_with_weight,
+                `tabDelivery Note Item`.length as dni_length,
+                `tabDelivery Note Item`.width as dni_width,
+                `tabRaw Items`.as_per_size as finish_size,
+                `tabDelivery Note Item`.qty as delivered_qty,
+                `tabDelivery Note Item`.weight_total                      
+            FROM
+                `tabSales Order`
+            JOIN
+                `tabSales Order Item` ON `tabSales Order`.name = `tabSales Order Item`.parent
+            JOIN
+                `tabRaw Items` ON `tabSales Order`.name = `tabRaw Items`.parent
+            JOIN
+                `tabDelivery Note Item` ON `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
+            WHERE
+                {conditions}
+            """.format(conditions=get_conditions(filters, "Sales Order"))
 
     so_result = frappe.db.sql(so_query, filters, as_dict=1)
     data.extend(so_result)
