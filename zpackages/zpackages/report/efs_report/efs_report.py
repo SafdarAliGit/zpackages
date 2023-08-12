@@ -200,7 +200,7 @@ def get_data(filters):
             `tabDelivery Note Item`.width AS dni_width,
             `tabRaw Items`.as_per_size AS finish_size,
             `tabDelivery Note Item`.qty AS delivered_qty,
-            `tabDelivery Note Item`.weight_total AS weight_total,
+            `tabDelivery Note Item`.weight_total,
             (`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total) AS weight_diff,
             (`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total) / `tabRaw Items`.final_weight_with_wastage AS wastage_percent
         FROM
@@ -213,6 +213,8 @@ def get_data(filters):
             `tabDelivery Note Item` ON `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
         WHERE
             {conditions}
+        GROUP BY
+                    `tabSales Order`.name, `tabSales Order`.customer
     """.format(conditions=get_conditions(filters, "Sales Order"))
 
     so_result = frappe.db.sql(so_query, filters, as_dict=1)
