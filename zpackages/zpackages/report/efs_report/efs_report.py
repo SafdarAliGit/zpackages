@@ -205,17 +205,15 @@ def get_data(filters):
             (`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total) / `tabRaw Items`.final_weight_with_wastage AS wastage_percent
         FROM
             `tabSales Order`
-        JOIN
+        LEFT JOIN
             `tabSales Order Item` ON `tabSales Order`.name = `tabSales Order Item`.parent
-        JOIN
+        LEFT JOIN
             `tabRaw Items` ON `tabSales Order`.name = `tabRaw Items`.parent
-        JOIN
+        LEFT JOIN
             `tabDelivery Note Item` ON `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
         WHERE
             {conditions}
-        GROUP BY
-                  `tabSales Order Item`.parent
-    """.format(conditions=get_conditions(filters, "Sales Order"))
+        """.format(conditions=get_conditions(filters, "Sales Order"))
 
     so_result = frappe.db.sql(so_query, filters, as_dict=1)
     data.extend(so_result)
