@@ -214,7 +214,7 @@ def get_data(filters):
         WHERE
             {conditions}
         GROUP BY
-                    `tabSales Order`.name, `tabSales Order`.customer
+                    `tabSales Order`.name
     """.format(conditions=get_conditions(filters, "Sales Order"))
 
     so_result = frappe.db.sql(so_query, filters, as_dict=1)
