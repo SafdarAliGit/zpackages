@@ -112,12 +112,18 @@ frappe.ui.form.on("Delivery Note", {
         }
     },
     onload: function (frm) {
+        var weight_total_sum = 0;
         frm.doc.items.forEach(function (item) {
             var weight_total = item.qty * item.weight_per_piece;
          frappe.model.set_value(item.doctype, item.name, 'weight_total', weight_total);
         });
 
         frm.fields_dict['items'].refresh();
+
+        frm.doc.items.forEach(function (item) {
+            weight_total_sum += item.weight_total;
+        });
+        frm.set_value('weight_total_sum',weight_total_sum.toFixed(5));
     }
 });
 
