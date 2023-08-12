@@ -110,4 +110,11 @@ def get_gsm(**args):
             & (parent.docstatus == 1)
         )
     )
-    return query.run(as_dict=True)[0].gsm
+    try:
+        gsm = query.run(as_dict=True)[0].gsm
+        if gsm:
+            return gsm
+        else:
+            return None
+    except:
+        return None
