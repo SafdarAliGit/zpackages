@@ -172,7 +172,7 @@ frappe.ui.form.on("Sales Order", {
                         $.each(childRecords, function (_i, e) {
 
                             let entry = frm.add_child("raw_items");
-                            entry.finish_material = e.customer_article_code , entry.raw_material = e.raw_material, entry.gsm = e.gsm, entry.width = e.width, entry.length = e.length, entry.ups = e.ups, entry.as_per_size = (((e.gsm * e.width * e.length) / 15500) / 100) / e.ups, entry.sheet_qty = Math.round(item.qty / e.ups), entry.color = e.color, entry.color_wastage_percent = 0, entry.color_wastage = 0, entry.wastage_weight = 0, entry.weight_with_wastage = 0, entry.finish_qty = item.qty, entry.final_weight_with_wastage = 0, entry.finish_size = ((parseFloat(item.length) * parseFloat(item.width) * e.gsm) / 15500) / 100, entry.finish_wt = entry.finish_size * item.qty, entry.wt_diff = 0, entry.finish_wastage_percentage = 0
+                            entry.finish_material = e.customer_article_code , entry.raw_material = e.raw_material, entry.gsm = e.gsm, entry.width = e.width, entry.length = e.length, entry.ups = e.ups, entry.as_per_size = ((((e.gsm * e.width * e.length) / 15500) / 100) / e.ups).toFixed(4), entry.sheet_qty = Math.round(item.qty / e.ups), entry.color = e.color, entry.color_wastage_percent = 0, entry.color_wastage = 0, entry.wastage_weight = 0, entry.weight_with_wastage = 0, entry.finish_qty = item.qty, entry.final_weight_with_wastage = 0, entry.finish_size = ((parseFloat(item.length) * parseFloat(item.width) * e.gsm) / 15500) / 100, entry.finish_wt = entry.finish_size * item.qty, entry.wt_diff = 0, entry.finish_wastage_percentage = 0
                         })
                         frm.refresh_field("raw_items")
 
