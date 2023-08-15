@@ -158,7 +158,8 @@ def get_columns():
             "label": _("Wastage%"),
             "fieldname": "f_wastage_percent",
             "fieldtype": "percent",
-            "width": 100
+            "width": 100,
+            "precision": 2
         }
     ]
     return columns
@@ -189,20 +190,20 @@ def get_data(filters):
              `tabRaw Items`.width,
              `tabRaw Items`.ups,
              `tabRaw Items`.color,
-             `tabRaw Items`.as_per_size,
+             CAST(ROUND(`tabRaw Items`.as_per_size,4) AS CHAR) AS as_per_size,
              `tabRaw Items`.sheet_qty,
-             `tabRaw Items`.color_wastage AS wastage_sheet,
+             ROUND(`tabRaw Items`.color_wastage,0)  AS wastage_sheet,
              `tabRaw Items`.color_wastage_percent AS wastage_percent,
-             `tabRaw Items`.wastage_weight,
-             `tabRaw Items`.weight_with_wastage,
-             `tabRaw Items`.final_weight_with_wastage AS total_wastage_with_weight,
+             CAST(ROUND(`tabRaw Items`.wastage_weight,4) AS CHAR) AS wastage_weight,
+             CAST(ROUND(`tabRaw Items`.weight_with_wastage,4) AS CHAR) AS weight_with_wastage,
+             CAST(ROUND(`tabRaw Items`.final_weight_with_wastage,2) AS CHAR) AS total_wastage_with_weight,
              `tabDelivery Note Item`.length AS dni_length,
              `tabDelivery Note Item`.width AS dni_width,
-             `tabRaw Items`.as_per_size AS finish_size,
+             CAST(ROUND(`tabRaw Items`.as_per_size,4) AS CHAR) AS finish_size,
              `tabDelivery Note Item`.qty AS delivered_qty,
-             `tabDelivery Note Item`.weight_total,
-             (`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total) AS weight_diff,
-             ((`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total) / `tabRaw Items`.final_weight_with_wastage) * 100 AS f_wastage_percent
+             CAST(ROUND(`tabDelivery Note Item`.weight_total,2) AS CHAR) AS weight_total,
+             CAST(ROUND((`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total),2) AS CHAR) AS weight_diff,
+             ROUND(((`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total) / `tabRaw Items`.final_weight_with_wastage) * 100,0) AS f_wastage_percent
          FROM
              `tabSales Order`,`tabSales Order Item`,`tabRaw Items`,`tabDelivery Note Item`
 		 WHERE
