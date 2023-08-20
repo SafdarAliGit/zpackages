@@ -118,3 +118,30 @@ def get_gsm(**args):
             return None
     except:
         return None
+
+@frappe.whitelist()
+def update_hs_codes():
+    items_with_hs_code = frappe.get_all(
+        'Item',
+        filters={'hs_code': ('!=', '')},
+        fields=['name', 'hs_code']
+    )
+
+    if items_with_hs_code:
+        for item in items_with_hs_code:
+            frappe.db.sql(
+                """
+                UPDATE `tabSales Invoice Item`
+                SET hs_code = %(hs_code)s
+                WHERE item_code = %(item_code)s
+                """,
+                {
+                    'hs_code': item['hs_code'],
+                    'item_code': item['name']
+                }
+            )
+
+        frappe.db.commit()
+        return True
+    else:
+        return False
