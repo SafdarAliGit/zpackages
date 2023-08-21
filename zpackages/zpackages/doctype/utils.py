@@ -124,7 +124,7 @@ def update_hs_codes():
     items_with_hs_code = frappe.get_all(
         'Item',
         filters={'hs_code': ('!=', '')},
-        fields=['name', 'hs_code']
+        fields=['item_name', 'hs_code']
     )
 
     if items_with_hs_code:
@@ -133,11 +133,11 @@ def update_hs_codes():
                 """
                 UPDATE `tabSales Invoice Item`
                 SET hs_code = %(hs_code)s
-                WHERE item_code = %(item_code)s
+                WHERE item_name = %(item_name)s
                 """,
                 {
                     'hs_code': item['hs_code'],
-                    'item_code': item['name']
+                    'item_name': item['item_name']
                 }
             )
 
