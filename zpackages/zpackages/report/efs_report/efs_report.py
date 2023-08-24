@@ -172,7 +172,7 @@ def get_conditions(filters, doctype):
         conditions.append(f"`tab{doctype}`.customer = %(customer)s")
     if filters.get("sales_order"):
         conditions.append(f"`tab{doctype}`.name = %(sales_order)s")
-    conditions.append(f"`tab{doctype}`.docstatus BETWEEN 0 AND 1")  # Include drafts and submitted documents
+    conditions.append(f"`tab{doctype}`.docstatus = 1")  # Include only submitted documents
     return " AND ".join(conditions)
 
 
