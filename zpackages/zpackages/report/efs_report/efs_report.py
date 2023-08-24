@@ -172,7 +172,7 @@ def get_conditions(filters, doctype):
         conditions.append(f"`tab{doctype}`.customer = %(customer)s")
     if filters.get("sales_order"):
         conditions.append(f"`tab{doctype}`.name = %(sales_order)s")
-    conditions.append(f"`tab{doctype}`.docstatus = 1")  # Include only submitted documents
+    conditions.append(f"`tab{doctype}`.docstatus BETWEEN 0 AND 1")  # Include drafts and submitted documents
     return " AND ".join(conditions)
 
 
@@ -216,7 +216,7 @@ def get_data(filters):
                 SELECT `tabDelivery Note`.docstatus
                 FROM `tabDelivery Note`
                 WHERE `tabDelivery Note`.name = `tabDelivery Note Item`.parent
-              ) = 1 AND
+              ) <=1 AND
               {conditions}
     """.format(conditions=get_conditions(filters, "Sales Order"))
 
