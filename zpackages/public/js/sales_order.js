@@ -200,18 +200,18 @@ frappe.ui.form.on("Sales Order", {
                                         frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'total_sheet_qty', total_sheet_qty);
 
                                         // ---weight_with_wastage
-                                        frm.doc.raw_items.forEach(function(row) {
-                    // Find the corresponding row in the target child table
-                    var target_row = frm.doc.items.find(function(target_row) {
-                        return target_row.idx === row.idx;
-                    });
-                    if (target_row) {
-                        // Copy the field value to the target child table
-                        target_row.weight_with_wastage = row.weight_with_wastage;
-                    }
-            });
+                                            // Find the corresponding row in the target child table
+                                            var target_row = frm.doc.items.find(function(target_row) {
+                                                return target_row.idx === frm.doc.raw_items[i].idx;
+                                            });
+                                            if (target_row) {
+                                                // Copy the field value to the target child table
+                                                target_row.weight_with_wastage = frm.doc.raw_items[i].weight_with_wastage;
+                                            }
+
                                         // ---weight_with_wastage
                                     }
+                                    frm.refresh_field("items")
                                 }
                             });
                         });
