@@ -113,6 +113,7 @@ frappe.ui.form.on("Delivery Note", {
     },
     onload: function (frm) {
         var weight_total_sum = 0;
+        var weight_total_raw_sum = 0;
         frm.doc.items.forEach(function (item) {
             var weight_total = item.qty * item.weight_per_piece;
             var weight_total_raw = item.qty * item.weight_with_wastage;
@@ -124,8 +125,10 @@ frappe.ui.form.on("Delivery Note", {
 
         frm.doc.items.forEach(function (item) {
             weight_total_sum += item.weight_total;
+            weight_total_raw_sum += item.weight_total_raw;
         });
         frm.set_value('weight_total_sum',weight_total_sum.toFixed(5));
+        frm.set_value('weight_total_raw_sum',weight_total_raw_sum.toFixed(5));
     }
 });
 
@@ -140,17 +143,22 @@ frappe.ui.form.on("Delivery Note Item", {
     },
      qty: function (frm) {
         var weight_total_sum = 0;
+        var weight_total_raw_sum = 0;
         frm.doc.items.forEach(function (item) {
             var weight_total = item.qty * item.weight_per_piece;
+            var weight_total_raw = item.qty * item.weight_with_wastage;
          frappe.model.set_value(item.doctype, item.name, 'weight_total', weight_total);
+         frappe.model.set_value(item.doctype, item.name, 'weight_total_raw', weight_total_raw);
         });
 
         frm.fields_dict['items'].refresh();
 
         frm.doc.items.forEach(function (item) {
             weight_total_sum += item.weight_total;
+            weight_total_raw_sum += item.weight_total_raw;
         });
         frm.set_value('weight_total_sum',weight_total_sum.toFixed(5));
+        frm.set_value('weight_total_raw_sum',weight_total_raw_sum.toFixed(5));
     },
     gsm: function (frm, dt, dn){
         var d = locals[dt][dn];
