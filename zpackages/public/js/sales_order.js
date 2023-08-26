@@ -188,15 +188,15 @@ frappe.ui.form.on("Sales Order", {
                                         frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'color_wastage', color_wastage);
                                         var wastage_weight = item.as_per_size * (response.message / 100)
                                         frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'wastage_weight', wastage_weight);
-                                        var weight_with_wastage = wastage_weight + item.as_per_size;
+                                        var weight_with_wastage = (parseFloat(wastage_weight) + parseFloat(item.as_per_size)).toFixed(5);
                                         frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'weight_with_wastage', weight_with_wastage);
                                         var final_weight_with_wastage = weight_with_wastage * item.finish_qty;
                                         frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'final_weight_with_wastage', final_weight_with_wastage);
-                                        var wt_diff = final_weight_with_wastage - item.finish_wt
+                                        var wt_diff = (parseFloat(final_weight_with_wastage) - parseFloat(item.finish_wt)).toFixed(5)
                                         frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'wt_diff', wt_diff);
                                         var finish_wastage_percentage = wt_diff * (100 / final_weight_with_wastage)
                                         frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'finish_wastage_percentage', finish_wastage_percentage);
-                                        var total_sheet_qty = item.sheet_qty + color_wastage;
+                                        var total_sheet_qty = Math.round(parseInt(item.sheet_qty) + parseFloat(color_wastage));
                                         frappe.model.set_value(frm.doc.raw_items[i].doctype, frm.doc.raw_items[i].name, 'total_sheet_qty', total_sheet_qty);
 
                                         // ---weight_with_wastage
@@ -270,24 +270,7 @@ frappe.ui.form.on("Sales Order Item", {
     }
 
 });
-// frappe.ui.form.on("Raw Items", {
-//  onload:function (frm){
-//      frm.doc.raw_items.forEach(function(row) {
-//                     // Find the corresponding row in the target child table
-//                     var target_row = frm.doc.items.find(function(target_row) {
-//                         return target_row.idx === row.idx;
-//                     });
-//                     console.log(target_row);
-//                     if (target_row) {
-//                         // Copy the field value to the target child table
-//                         target_row.weight_with_wastage = row.weight_with_wastage;
-//                     }
-//             });
-//             // Refresh the form to reflect changes
-//             frm.refresh_field('items');
-//
-//  }
-// });
+
 
 
 erpnext.selling.SalesOrderController = class SalesOrderController extends erpnext.selling.SellingController {
