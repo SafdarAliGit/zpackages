@@ -119,6 +119,7 @@ frappe.ui.form.on("Delivery Note", {
             var weight_total_raw = item.qty * item.weight_with_wastage;
          frappe.model.set_value(item.doctype, item.name, 'weight_total', weight_total);
          frappe.model.set_value(item.doctype, item.name, 'weight_total_raw', weight_total_raw);
+         frappe.model.set_value(item.doctype, item.name, 'po_no', frm.doc.po_no);
         });
 
         frm.fields_dict['items'].refresh();
