@@ -97,7 +97,7 @@ def get_columns():
         {
             "label": _("Wastage%"),
             "fieldname": "wastage_percent",
-            "fieldtype": "percent",
+            "fieldtype": "Percent",
             "width": 100
         },
         {
@@ -194,12 +194,12 @@ def get_data(filters):
              `tabRaw Items`.sheet_qty,
              ROUND(`tabRaw Items`.color_wastage,0)  AS wastage_sheet,
              `tabRaw Items`.color_wastage_percent AS wastage_percent,
-             CAST(ROUND(`tabRaw Items`.wastage_weight,4) AS CHAR) AS wastage_weight,
+             CAST(ROUND(`tabRaw Items`.wastage_weight,5) AS CHAR) AS wastage_weight,
              CAST(ROUND(`tabRaw Items`.weight_with_wastage,4) AS CHAR) AS weight_with_wastage,
              CAST(ROUND(`tabRaw Items`.final_weight_with_wastage,2) AS CHAR) AS total_wastage_with_weight,
              `tabDelivery Note Item`.length AS dni_length,
              `tabDelivery Note Item`.width AS dni_width,
-             CAST(ROUND(`tabRaw Items`.as_per_size,4) AS CHAR) AS finish_size,
+             CAST(ROUND(`tabDelivery Note Item`.weight_per_piece},4) AS CHAR) AS finish_size,
              `tabDelivery Note Item`.qty AS delivered_qty,
              CAST(ROUND(`tabDelivery Note Item`.weight_total,2) AS CHAR) AS weight_total,
              CAST(ROUND((`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total),2) AS CHAR) AS weight_diff,
