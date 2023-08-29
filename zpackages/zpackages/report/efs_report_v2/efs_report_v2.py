@@ -199,7 +199,7 @@ def get_data(filters):
              CAST(ROUND(`tabRaw Items`.final_weight_with_wastage,2) AS CHAR) AS total_wastage_with_weight,
              `tabDelivery Note Item`.length AS dni_length,
              `tabDelivery Note Item`.width AS dni_width,
-             CAST(ROUND(`tabDelivery Note Item`.weight_per_piece},4) AS CHAR) AS finish_size,
+             CAST(ROUND(`tabDelivery Note Item`.weight_per_piece),4) AS CHAR) AS finish_size,
              `tabDelivery Note Item`.qty AS delivered_qty,
              CAST(ROUND(`tabDelivery Note Item`.weight_total,2) AS CHAR) AS weight_total,
              CAST(ROUND((`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total),2) AS CHAR) AS weight_diff,
