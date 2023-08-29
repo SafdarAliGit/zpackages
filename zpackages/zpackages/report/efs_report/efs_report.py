@@ -216,86 +216,10 @@ def get_data(filters):
                 SELECT `tabDelivery Note`.docstatus
                 FROM `tabDelivery Note`
                 WHERE `tabDelivery Note`.name = `tabDelivery Note Item`.parent
-              ) <=1 AND
+              ) = 1 AND
               {conditions}
     """.format(conditions=get_conditions(filters, "Sales Order"))
 
     so_result = frappe.db.sql(so_query, filters, as_dict=1)
     data.extend(so_result)
     return data
-
-# def get_data(filters):
-#     data = []
-#     so_query = """
-#         SELECT
-#             `tabSales Order`.name AS sales_order,
-#             `tabSales Order`.customer,
-#             `tabSales Order Item`.item_code AS finish_item,
-#             `tabSales Order Item`.qty,
-#             `tabRaw Items`.raw_material AS item_attribute,
-#             `tabRaw Items`.gsm,
-#             `tabRaw Items`.length,
-#             `tabRaw Items`.width,
-#             `tabRaw Items`.ups,
-#             `tabRaw Items`.color,
-#             `tabRaw Items`.as_per_size,
-#             `tabRaw Items`.sheet_qty,
-#             `tabRaw Items`.color_wastage AS wastage_sheet,
-#             `tabRaw Items`.color_wastage_percent AS wastage_percent,
-#             `tabRaw Items`.wastage_weight,
-#             `tabRaw Items`.weight_with_wastage,
-#             `tabRaw Items`.final_weight_with_wastage AS total_wastage_with_weight,
-#             `tabDelivery Note Item`.length AS dni_length,
-#             `tabDelivery Note Item`.width AS dni_width,
-#             `tabRaw Items`.as_per_size AS finish_size,
-#             `tabDelivery Note Item`.qty AS delivered_qty,
-#             `tabDelivery Note Item`.weight_total,
-#             (`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total) AS weight_diff,
-#             (`tabRaw Items`.final_weight_with_wastage - `tabDelivery Note Item`.weight_total) / `tabRaw Items`.final_weight_with_wastage AS wastage_percent
-#         FROM
-#             `tabSales Order`
-#         JOIN
-#             `tabSales Order Item` ON `tabSales Order`.name = `tabSales Order Item`.parent
-#         JOIN
-#             `tabRaw Items` ON `tabSales Order`.name = `tabRaw Items`.parent
-#         JOIN
-#             `tabDelivery Note Item` ON `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
-#         WHERE
-#             {conditions}
-#     """.format(conditions=get_conditions(filters, "Sales Order"))
-#     so_result = frappe.db.sql(so_query, filters, as_dict=1)
-#     data.extend(so_result)
-#     return data
-
-
-# def get_data(filters):
-#     data = []
-#     so_query = """
-#            SELECT
-#     	     `tabSales Order`.name AS sales_order,
-# 	         `tabSales Order`.customer,
-#              `tabRaw Items`.raw_material AS item_attribute,
-#              `tabRaw Items`.gsm,
-#              `tabRaw Items`.length,
-#              `tabRaw Items`.width,
-#              `tabRaw Items`.ups,
-#              `tabRaw Items`.color,
-#              `tabRaw Items`.as_per_size,
-#              `tabRaw Items`.sheet_qty,
-#              `tabRaw Items`.color_wastage AS wastage_sheet,
-#              `tabRaw Items`.color_wastage_percent AS wastage_percent,
-#              `tabRaw Items`.wastage_weight,
-#              `tabRaw Items`.weight_with_wastage,
-#              `tabRaw Items`.final_weight_with_wastage AS total_wastage_with_weight,
-#              `tabRaw Items`.as_per_size AS finish_size
-#          FROM
-#              `tabSales Order`
-# 		INNER JOIN
-#              `tabRaw Items` ON `tabRaw Items`.parent = `tabSales Order`.name
-#         WHERE
-#             {conditions}
-#     """.format(conditions=get_conditions(filters, "Sales Order"))
-#
-#     so_result = frappe.db.sql(so_query, filters, as_dict=1)
-#     data.extend(so_result)
-#     return data
