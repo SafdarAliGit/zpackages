@@ -97,19 +97,13 @@ frappe.ui.form.on("Sales Order", {
 
     onload: function (frm) {
         // custom
-        // frm.doc.raw_items.forEach(function (item, i) {
-        //     frm.set_query('raw_item', 'raw_items', () => {
-        //         return {
-        //             filters: {
-        //                 'item_attribute': item.raw_material
-        //             }
-        //         }
-        //     })
-        //
-        // });
-        //
-        // frm.fields_dict['raw_items'].refresh();
-
+           frm.fields_dict['items'].grid.get_field('job_costing').get_query = function (doc, cdt, cdn) {
+        return {
+            filters: [
+                ["Job Costing", "docstatus", "<=", 1],
+            ]
+        };
+    };
         // custom end
         if (!frm.doc.transaction_date) {
             frm.set_value('transaction_date', frappe.datetime.get_today())
@@ -267,7 +261,19 @@ frappe.ui.form.on("Sales Order Item", {
             frappe.model.set_value(cdt, cdn, 'job_costing', '');
             frappe.throw({message: __("Length and width required"), title: __("Note")});
         }
-    }
+    },
+    items_add: function (frm, cdt, cdn) {
+
+    frm.fields_dict['items'].grid.get_field('job_costing').get_query = function (doc, cdt, cdn) {
+        return {
+            filters: [
+                ["Job Costing", "docstatus", "<=", 1],
+            ]
+        };
+    };
+
+}
+
 
 });
 

@@ -169,11 +169,6 @@ def get_data(filters):
              `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order  AND
              `tabSales Order Item`.idx =  `tabRaw Items`.idx AND 
              `tabSales Order Item`.idx =  `tabDelivery Note Item`.idx AND
-              (
-                SELECT `tabDelivery Note`.docstatus
-                FROM `tabDelivery Note`
-                WHERE `tabDelivery Note`.name = `tabDelivery Note Item`.parent
-              ) = 1 AND
               {conditions}
     """.format(conditions=get_conditions(filters, "Sales Order"))
 
