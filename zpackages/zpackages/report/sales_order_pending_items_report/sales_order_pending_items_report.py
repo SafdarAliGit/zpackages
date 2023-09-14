@@ -91,7 +91,6 @@ def get_data(filters):
     sales_analytics = """SELECT 
             `tabSales Order`.transaction_date AS posting_date,
             `tabSales Order`.customer,
-            `tabSales Order Item`.description,
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
             `tabSales Order Item`.qty AS so_qty,
