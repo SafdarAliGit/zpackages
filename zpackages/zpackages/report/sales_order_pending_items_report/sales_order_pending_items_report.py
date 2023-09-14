@@ -106,6 +106,8 @@ def get_data(filters):
             AND 
             `tabDelivery Note`.name = `tabDelivery Note Item`.parent
             AND 
+             `tabSales Order Item`.description = `tabDelivery Note Item`.description
+            AND 
             `tabSales Order`.docstatus <= 1
             AND
              `tabDelivery Note`.docstatus <= 1
@@ -113,7 +115,7 @@ def get_data(filters):
             {conditions}
             AND
             `tabSales Order Item`.qty != `tabDelivery Note Item`.qty 
-        GROUP BY `tabSales Order Item`.description, `tabDelivery Note Item`.description
+        GROUP BY `tabSales Order Item`.description
     """.format(conditions=get_conditions(filters, "Sales Order"))
     sales_analytics_result = frappe.db.sql(sales_analytics, filters, as_dict=1)
     data.extend(sales_analytics_result)
