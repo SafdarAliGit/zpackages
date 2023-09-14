@@ -91,14 +91,18 @@ def get_data(filters):
     sales_analytics = """SELECT 
             `tabSales Order`.transaction_date AS posting_date,
             `tabSales Order`.customer,
-            `tabSales Order Item`.description,
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
-            SUM(`tabSales Order Item`.qty) AS so_qty
+            SUM(`tabSales Order Item`.qty) AS so_qty,
+            SUM(`tabDelivery Note Item`.qty) AS dn_qty
         FROM 
-            `tabSales Order`, `tabSales Order Item`
+            `tabSales Order`, `tabSales Order Item`,`tabDelivery Note`, `tabDelivery Note Item`
         WHERE 
             `tabSales Order`.name = `tabSales Order Item`.parent
+            AND 
+            `tabDelivery Note`.name = `tabDelivery Note Item`.parent
+            AND
+            `tabSales Order Item`.item_code = `tabDelivery Note Item`.item_code
             AND 
             `tabSales Order`.docstatus <= 1
             AND 
