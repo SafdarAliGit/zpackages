@@ -96,7 +96,7 @@ def get_data(filters):
             SUM(`tabSales Order Item`.qty) AS so_qty,
             SUM(`tabDelivery Note Item`.qty) AS dn_qty
         FROM 
-            `tabSales Order`, `tabSales Order Item`,`tabDelivery Note`, `tabDelivery Note Item`
+            `tabSales Order`, `tabSales Order Item`, `tabDelivery Note Item`
         WHERE 
             `tabSales Order`.name = `tabSales Order Item`.parent
             AND 
