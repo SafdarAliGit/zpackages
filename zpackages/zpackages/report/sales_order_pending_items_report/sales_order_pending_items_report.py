@@ -94,7 +94,7 @@ def get_data(filters):
             `tabSales Order Item`.description,
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
-            `tabSales Order Item`.qty so_qty,
+            SUM(`tabSales Order Item`.qty) so_qty,
             `tabDelivery Note Item`.qty AS dn_qty,
             `tabSales Order Item`.qty - `tabDelivery Note Item`.qty AS balance
         FROM 
@@ -111,7 +111,8 @@ def get_data(filters):
              `tabDelivery Note`.docstatus <= 1
             AND 
             {conditions}
-                
+        GROUP BY `tabSales Order Item`.item_code
+        
     """.format(conditions=get_conditions(filters, "Sales Order"))
     sales_analytics_result = frappe.db.sql(sales_analytics, filters, as_dict=1)
     data.extend(sales_analytics_result)
