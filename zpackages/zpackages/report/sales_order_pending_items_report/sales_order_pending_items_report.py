@@ -104,6 +104,8 @@ def get_data(filters):
             AND
             `tabSales Order Item`.item_code = `tabDelivery Note Item`.item_code
             AND 
+            `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
+            AND 
             `tabSales Order`.docstatus <= 1
             AND 
             {conditions}
