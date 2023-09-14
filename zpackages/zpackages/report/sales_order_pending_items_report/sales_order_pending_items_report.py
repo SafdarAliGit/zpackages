@@ -94,11 +94,19 @@ def get_data(filters):
             `tabSales Order Item`.description,
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
-            `tabSales Order Item`.qty AS so_qty
+            `tabSales Order Item`.qty AS so_qty,
+            `tabDelivery Note Item`.qty AS dn_qty,
+            `tabSales Order Item`.qty - `tabDelivery Note Item`.qty AS balance
         FROM 
-            `tabSales Order`, `tabSales Order Item`
+            `tabSales Order`, `tabSales Order Item`,`tabDelivery Note`, `tabDelivery Note Item`
         WHERE 
             `tabSales Order`.name = `tabSales Order Item`.parent
+            AND 
+            `tabDelivery Note`.name = `tabDelivery Note Item`.parent
+            AND 
+            `tabSales Order Item`.item_code = `tabDelivery Note Item`.item_code
+             AND 
+            `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
             AND 
             `tabSales Order`.docstatus <= 1
             AND 
