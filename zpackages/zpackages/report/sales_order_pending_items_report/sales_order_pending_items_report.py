@@ -104,10 +104,6 @@ def get_data(filters):
             AND
             `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
             AND 
-            `tabSales Order`.docstatus <= 1
-            AND 
-            `tabDelivery Note`.docstatus <= 1
-            AND 
             {conditions}
         GROUP BY  `tabSales Order`.transaction_date, `tabSales Order`.customer, `tabSales Order Item`.item_code, `tabSales Order`.name
     """.format(conditions=get_conditions(filters, "Sales Order"))
