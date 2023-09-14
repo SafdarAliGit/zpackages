@@ -95,8 +95,8 @@ def get_data(filters):
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
             `tabSales Order Item`.qty AS so_qty,
-            `tabDelivery Note Item`.qty AS dn_qty,
-            `tabSales Order Item`.qty - `tabDelivery Note Item`.qty AS balance
+            SUM(`tabDelivery Note Item`.qty) AS dn_qty,
+            SUM(`tabSales Order Item`.qty - `tabDelivery Note Item`.qty) AS balance
         FROM 
             `tabSales Order`, `tabSales Order Item`,`tabDelivery Note`, `tabDelivery Note Item`
         WHERE 
