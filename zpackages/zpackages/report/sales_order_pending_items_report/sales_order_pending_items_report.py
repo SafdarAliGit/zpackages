@@ -100,7 +100,7 @@ def get_data(filters):
         FROM 
             `tabSales Order`
             INNER JOIN `tabSales Order Item` ON `tabSales Order`.name = `tabSales Order Item`.parent
-            INNER JOIN `tabDelivery Note Item` ON `tabSales Order Item`.item_code = `tabDelivery Note Item`.code
+            INNER JOIN `tabDelivery Note Item` ON `tabSales Order Item`.item_code = `tabDelivery Note Item`.item_code
             INNER JOIN `tabDelivery Note` ON `tabDelivery Note`.name = `tabDelivery Note Item`.parent
         WHERE 
             `tabSales Order`.docstatus <= 1
