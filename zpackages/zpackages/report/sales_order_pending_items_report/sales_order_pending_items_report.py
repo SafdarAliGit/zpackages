@@ -94,24 +94,15 @@ def get_data(filters):
             `tabSales Order Item`.description,
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
-            `tabSales Order Item`.qty AS so_qty,
-            `tabDelivery Note Item`.qty AS dn_qty,
-            `tabSales Order Item`.qty - `tabDelivery Note Item`.qty AS balance
+            `tabSales Order Item`.qty AS so_qty
         FROM 
-            `tabSales Order`, `tabSales Order Item`,`tabDelivery Note`, `tabDelivery Note Item`
+            `tabSales Order`, `tabSales Order Item`
         WHERE 
             `tabSales Order`.name = `tabSales Order Item`.parent
             AND 
-            `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
-            AND 
-            `tabDelivery Note`.name = `tabDelivery Note Item`.parent
-            AND 
             `tabSales Order`.docstatus <= 1
-            AND
-             `tabDelivery Note`.docstatus <= 1
             AND 
             {conditions}
-        GROUP BY `tabSales Order Item`.item_code
         
     """.format(conditions=get_conditions(filters, "Sales Order"))
     sales_analytics_result = frappe.db.sql(sales_analytics, filters, as_dict=1)
