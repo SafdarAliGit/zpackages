@@ -93,11 +93,14 @@ def get_data(filters):
             `tabSales Order`.customer,
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
-            SUM(`tabSales Order Item`.qty) AS so_qty
+            SUM(`tabSales Order Item`.qty) AS so_qty,
+            SUM(`tabDelivery Note Item`.qty) AS dn_qty
         FROM 
-            `tabSales Order`, `tabSales Order Item`
+            `tabSales Order`, `tabSales Order Item`,`tabDelivery Note`, `tabDelivery Note Item`
         WHERE 
             `tabSales Order`.name = `tabSales Order Item`.parent
+            AND 
+            `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order
             AND 
             `tabSales Order`.docstatus <= 1
             AND 
