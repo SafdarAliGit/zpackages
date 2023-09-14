@@ -106,8 +106,6 @@ def get_data(filters):
             AND 
             `tabDelivery Note`.name = `tabDelivery Note Item`.parent
             AND 
-             `tabSales Order Item`.description = `tabDelivery Note Item`.description
-            AND 
             `tabSales Order`.docstatus <= 1
             AND
              `tabDelivery Note`.docstatus <= 1
