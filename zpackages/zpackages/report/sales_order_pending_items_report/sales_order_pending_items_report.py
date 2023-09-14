@@ -103,7 +103,6 @@ def get_data(filters):
             `tabSales Order`.docstatus <= 1
             AND 
             {conditions}
-        GROUP BY `tabSales Order Item`.item_code
     """.format(conditions=get_conditions(filters, "Sales Order"))
     sales_analytics_result = frappe.db.sql(sales_analytics, filters, as_dict=1)
     data.extend(sales_analytics_result)
