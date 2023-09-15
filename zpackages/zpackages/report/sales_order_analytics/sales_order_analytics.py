@@ -90,8 +90,8 @@ def get_data(filters):
             SUM(`tabSales Order Item`.qty) AS so_qty,
             (
                 SELECT COALESCE(SUM(`tabDelivery Note Item`.qty),0)
-                FROM `tabDelivery Note Item`
-                WHERE `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order AND `tabSales Order Item`.item_code  =  `tabDelivery Note Item`.item_code
+                FROM `tabDelivery Note Item`,`tabDelivery Note`
+                WHERE `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order AND `tabSales Order Item`.item_code  =  `tabDelivery Note Item`.item_code AND `tabDelivery Note`.name = `tabDelivery Note Item`.parent AND `tabDelivery Note`.docstatus <= 1
             ) AS dn_qty
             
         FROM 
