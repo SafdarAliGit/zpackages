@@ -71,10 +71,9 @@ def get_data(filters):
             `tabDelivery Note Item`.item_group,
             SUM(`tabDelivery Note`.total_taxes_and_charges) AS taxes,
             SUM(`tabDelivery Note Item`.qty) AS qty,
-            SUM(`tabDelivery Note Item`.amount) AS amount,
             SUM(`tabDelivery Note`.grand_total) AS total
         FROM
-            `tabDelivery Note`, `tabDelivery Note Item`
+            `tabDelivery Note`, `tabDelivery Note Item` 
         WHERE 
             `tabDelivery Note`.name = `tabDelivery Note Item`.parent AND
             {conditions}
@@ -83,5 +82,7 @@ def get_data(filters):
     """.format(conditions=get_conditions(filters, "Delivery Note"))
 
     sales_summary_result = frappe.db.sql(sales_summary, filters, as_dict=1)
+    for dt in sales_summary_result:
+        dt.update({'amount':dt.get('total') - dt.get('taxes')})
     data.extend(sales_summary_result)
     return data
