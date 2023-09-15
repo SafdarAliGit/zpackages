@@ -115,7 +115,8 @@ def get_data(filters):
     sales_analytics_result = frappe.db.sql(sales_analytics, filters, as_dict=1)
     for dt in sales_analytics_result:
         dt.update({"balance":dt.get('so_qty') -dt.get('dn_qty') })
-    data.extend(sales_analytics_result)
+    filtered_data = [entry for entry in sales_analytics_result if entry['balance'] != 0]
+    data.extend(filtered_data)
     return data
 
 
