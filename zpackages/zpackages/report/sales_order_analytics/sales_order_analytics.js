@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 /* eslint-disable */
 
-frappe.query_reports["Sales Order Pending Items Report"] = {
+frappe.query_reports["Sales Order Analytics"] = {
 	"filters": [
 
         {
@@ -24,5 +24,4 @@ frappe.query_reports["Sales Order Pending Items Report"] = {
 			"options":"Customer"
         }
     ]
-
 };
