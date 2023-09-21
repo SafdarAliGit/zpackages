@@ -36,12 +36,7 @@ def get_columns():
             "width": 150
         }
         ,
-        {
-            "label": _("Tax Rate"),
-            "fieldname": "rate",
-            "fieldtype": "Currency",
-            "width": 150
-        },
+    
         {
             "label": _("Tax"),
             "fieldname": "tax",
@@ -84,27 +79,44 @@ def get_data(filters):
              `tabDelivery Note`.name,
             `tabDelivery Note Item`.item_group,
             SUM(`tabDelivery Note Item`.qty) AS qty,
-            SUM(`tabDelivery Note Item`.amount) AS amount
+            SUM(`tabDelivery Note Item`.amount) AS amount,
+            IFNULL(`tabSales Taxes and Charges`.rate, 0) as rate
         FROM
-            `tabDelivery Note`, `tabDelivery Note Item` 
+            `tabDelivery Note`
+            LEFT JOIN `tabDelivery Note Item` ON `tabDelivery Note`.name = `tabDelivery Note Item`.parent
+            LEFT JOIN `tabSales Taxes and Charges` ON `tabDelivery Note`.name = `tabSales Taxes and Charges`.parent
         WHERE 
-            `tabDelivery Note`.name = `tabDelivery Note Item`.parent AND
             {conditions}
         GROUP BY
-            `tabDelivery Note Item`.item_group
-
+            `tabDelivery Note Item`.item_group, `tabSales Taxes and Charges`.rate
     """.format(conditions=get_conditions(filters, "Delivery Note"))
 
     sales_summary_result = frappe.db.sql(sales_summary, filters, as_dict=1)
 
     for dt in sales_summary_result:
-        stc = frappe.get_all('Sales Taxes and Charges', filters={'parent': dt.get('name')}, fields=['rate'])
-        tax_rate = stc[0].get('rate') if stc else 0  # Assuming rate is the tax rate
-        tax = dt.get('amount') * tax_rate/100
-        dt.update({'rate':tax_rate, 'tax': tax})
-        dt.update({'total': tax + dt.get('amount')})
+        tax_rate = dt.get('rate')  if dt.get('rate') else 0  # Assuming rate is the tax rate in percentage
+        tax = dt.get('amount') * dt.get('rate') / 100
+        dt.update({'total': tax + dt.get('amount'), 'rate': tax_rate, 'tax': tax})
 
-    # for dt in sales_summary_result:
-    #     dt.update({'amount':dt.get('total') - dt.get('taxes')})
-    data.extend(sales_summary_result)
+    grouped_sums = {}
+    for entry in sales_summary_result:
+        item_group = entry['item_group']
+        if item_group not in grouped_sums:
+            grouped_sums[item_group] = {
+                'item_group': item_group,
+                'qty': 0,
+                'amount': 0,
+                'tax': 0,
+                'total': 0
+            }
+
+        grouped_sums[item_group]['qty'] += entry['qty']
+        grouped_sums[item_group]['amount'] += entry['amount']
+        grouped_sums[item_group]['tax'] += entry['tax']
+        grouped_sums[item_group]['total'] += entry['total']
+
+    grouped_sums_list = list(grouped_sums.values())
+
+    data.extend(grouped_sums_list)
     return data
+
