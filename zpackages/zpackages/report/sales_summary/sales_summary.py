@@ -37,8 +37,14 @@ def get_columns():
         }
         ,
         {
-            "label": _("Taxes"),
-            "fieldname": "taxes",
+            "label": _("Tax Rate"),
+            "fieldname": "rate",
+            "fieldtype": "Currency",
+            "width": 150
+        },
+        {
+            "label": _("Tax"),
+            "fieldname": "tax",
             "fieldtype": "Currency",
             "width": 150
         },
@@ -65,13 +71,20 @@ def get_conditions(filters, doctype):
     return " AND ".join(conditions)
 
 
+# SUM(`tabDelivery
+# Note
+# `.total_taxes_and_charges) AS
+# taxes,
+#
+# GROUP BY
+#             `tabDelivery Note Item`.item_group
 def get_data(filters):
     data = []
     sales_summary = """SELECT
+             `tabDelivery Note`.name,
             `tabDelivery Note Item`.item_group,
-            SUM(`tabDelivery Note`.total_taxes_and_charges) AS taxes,
             SUM(`tabDelivery Note Item`.qty) AS qty,
-            SUM(`tabDelivery Note Item`.amount) AS total
+            SUM(`tabDelivery Note Item`.amount) AS amount
         FROM
             `tabDelivery Note`, `tabDelivery Note Item` 
         WHERE 
@@ -79,10 +92,19 @@ def get_data(filters):
             {conditions}
         GROUP BY
             `tabDelivery Note Item`.item_group
+
     """.format(conditions=get_conditions(filters, "Delivery Note"))
 
     sales_summary_result = frappe.db.sql(sales_summary, filters, as_dict=1)
+
     for dt in sales_summary_result:
-        dt.update({'amount':dt.get('total') - dt.get('taxes')})
+        stc = frappe.get_all('Sales Taxes and Charges', filters={'parent': dt.get('name')}, fields=['rate'])
+        tax_rate = stc[0].get('rate') if stc else 0  # Assuming rate is the tax rate
+        tax = dt.get('amount') * tax_rate/100
+        dt.update({'rate':tax_rate, 'tax': tax})
+        dt.update({'total': tax + dt.get('amount')})
+
+    # for dt in sales_summary_result:
+    #     dt.update({'amount':dt.get('total') - dt.get('taxes')})
     data.extend(sales_summary_result)
     return data
