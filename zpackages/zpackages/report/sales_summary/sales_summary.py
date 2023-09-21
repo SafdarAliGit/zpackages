@@ -71,7 +71,7 @@ def get_data(filters):
             `tabDelivery Note Item`.item_group,
             SUM(`tabDelivery Note`.total_taxes_and_charges) AS taxes,
             SUM(`tabDelivery Note Item`.qty) AS qty,
-            SUM(`tabDelivery Note`.grand_total) AS total
+            SUM(`tabDelivery Note Item`.amount) AS total
         FROM
             `tabDelivery Note`, `tabDelivery Note Item` 
         WHERE 
