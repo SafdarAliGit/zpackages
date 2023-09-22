@@ -36,7 +36,7 @@ def get_columns():
             "width": 150
         }
         ,
-    
+
         {
             "label": _("Tax"),
             "fieldname": "tax",
