@@ -98,25 +98,25 @@ def get_data(filters):
         tax = dt.get('amount') * dt.get('rate') / 100
         dt.update({'total': tax + dt.get('amount'), 'rate': tax_rate, 'tax': tax})
 
-    # grouped_sums = {}
-    # for entry in sales_summary_result:
-    #     item_group = entry['item_group']
-    #     if item_group not in grouped_sums:
-    #         grouped_sums[item_group] = {
-    #             'item_group': item_group,
-    #             'qty': 0,
-    #             'amount': 0,
-    #             'tax': 0,
-    #             'total': 0
-    #         }
-    #
-    #     grouped_sums[item_group]['qty'] += entry['qty']
-    #     grouped_sums[item_group]['amount'] += entry['amount']
-    #     grouped_sums[item_group]['tax'] += entry['tax']
-    #     grouped_sums[item_group]['total'] += entry['total']
-    #
-    # grouped_sums_list = list(grouped_sums.values())
+    grouped_sums = {}
+    for entry in sales_summary_result:
+        item_group = entry['item_group']
+        if item_group not in grouped_sums:
+            grouped_sums[item_group] = {
+                'item_group': item_group,
+                'qty': 0,
+                'amount': 0,
+                'tax': 0,
+                'total': 0
+            }
 
-    data.extend(sales_summary_result)
+        grouped_sums[item_group]['qty'] += entry['qty']
+        grouped_sums[item_group]['amount'] += entry['amount']
+        grouped_sums[item_group]['tax'] += entry['tax']
+        grouped_sums[item_group]['total'] += entry['total']
+
+    grouped_sums_list = list(grouped_sums.values())
+
+    data.extend(grouped_sums_list)
     return data
 
