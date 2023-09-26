@@ -17,6 +17,12 @@ def decimal_format(value, decimals):
 def get_columns():
     columns = [
         {
+            "label": _("Item"),
+            "fieldname": "item_code",
+            "fieldtype": "Link",
+            "options": 'Item',
+            "width": 150
+        },{
             "label": _("Item Group"),
             "fieldname": "item_group",
             "fieldtype": "Link",
@@ -28,6 +34,12 @@ def get_columns():
             "fieldname": "name",
             "fieldtype": "Link",
             "options": 'Delivery Note',
+            "width": 150
+        },
+        {
+            "label": _("Date"),
+            "fieldname": "posting_date",
+            "fieldtype": "Date",
             "width": 150
         }
         ,
@@ -51,7 +63,23 @@ def get_columns():
             "fieldname": "customer_name",
             "fieldtype": "Data",
             "width": 150
-        },
+        }
+        ,
+
+        {
+            "label": _("Qty"),
+            "fieldname": "qty",
+            "fieldtype": "Data",
+            "width": 150
+        } ,
+
+        {
+            "label": _("Rate"),
+            "fieldname": "rate",
+            "fieldtype": "Currency",
+            "width": 150
+        }
+        ,
         {
             "label": _("Grand Total"),
             "fieldname": "base_grand_total",
@@ -92,12 +120,15 @@ def get_data(filters):
     data = []
     sales_summary = """SELECT `tabDelivery Note`.name,
             `tabDelivery Note`.customer, 
+            `tabDelivery Note`.posting_date, 
             `tabDelivery Note`.status,
             `tabDelivery Note`.customer_name,
             `tabDelivery Note`.base_grand_total,
             `tabDelivery Note`.net_total, 
-            `tabDelivery Note`.base_total_taxes_and_charges,
-            `tabDelivery Note Item`.item_group as item_group
+            `tabDelivery Note Item`.item_group,
+            `tabDelivery Note Item`.item_code,
+            `tabDelivery Note Item`.qty,
+            `tabDelivery Note Item`.rate
         FROM
             `tabDelivery Note`
         LEFT JOIN
