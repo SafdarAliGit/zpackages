@@ -73,15 +73,13 @@ def get_conditions(filters, doctype):
 #
 # GROUP BY
 #             `tabDelivery Note Item`.item_group
-#   GROUP BY
-#             `tabDelivery Note Item`.item_group, `tabSales Taxes and Charges`.rate
 def get_data(filters):
     data = []
     sales_summary = """SELECT
              `tabDelivery Note`.name,
             `tabDelivery Note Item`.item_group,
-            `tabDelivery Note Item`.qty AS qty,
-            `tabDelivery Note Item`.amount AS amount,
+            SUM(`tabDelivery Note Item`.qty) AS qty,
+            SUM(`tabDelivery Note Item`.amount) AS amount,
             IFNULL(`tabSales Taxes and Charges`.rate, 0) as rate
         FROM
             `tabDelivery Note`
@@ -89,7 +87,8 @@ def get_data(filters):
             LEFT JOIN `tabSales Taxes and Charges` ON `tabDelivery Note`.name = `tabSales Taxes and Charges`.parent
         WHERE 
             {conditions}
-      
+        GROUP BY
+            `tabDelivery Note Item`.item_group, `tabSales Taxes and Charges`.rate
     """.format(conditions=get_conditions(filters, "Delivery Note"))
 
     sales_summary_result = frappe.db.sql(sales_summary, filters, as_dict=1)
