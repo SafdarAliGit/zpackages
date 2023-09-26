@@ -105,6 +105,8 @@ def get_conditions(filters, doctype):
         conditions.append(f"`tab{doctype}`.posting_date >= %(from_date)s")
     if filters.get("to_date"):
         conditions.append(f"`tab{doctype}`.posting_date <= %(to_date)s")
+    if filters.get("item_group"):
+        conditions.append(f"`tab{doctype} Item`.item_group = %(item_group)s")
 
     return " AND ".join(conditions)
 

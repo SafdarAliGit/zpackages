@@ -15,6 +15,12 @@ frappe.query_reports["Sales Summary Eval"] = {
             "label": __("To Date"),
             "fieldtype": "Date",
             "reqd": 1
+        },
+         {
+            "fieldname": "item_group",
+            "label": __("Item Group"),
+            "fieldtype": "Link",
+             "options":"Item Group"
         }
     ]
 };
