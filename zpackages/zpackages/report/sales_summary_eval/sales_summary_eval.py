@@ -88,18 +88,11 @@ def get_columns():
         },
 
     {
-        "label": _("Net Total"),
-        "fieldname": "net_total",
+        "label": _("Amount"),
+        "fieldname": "amount",
         "fieldtype": "Currency",
         "width": 150
-    },
-
-        {
-            "label": _("Taxes And Charges"),
-            "fieldname": "base_total_taxes_and_charges",
-            "fieldtype": "Currency",
-            "width": 150
-        }
+    }
 
     ]
     return columns
@@ -124,7 +117,7 @@ def get_data(filters):
             `tabDelivery Note`.status,
             `tabDelivery Note`.customer_name,
             `tabDelivery Note`.base_grand_total,
-            `tabDelivery Note`.net_total, 
+            `tabDelivery Note Item`.amount, 
             `tabDelivery Note Item`.item_group,
             `tabDelivery Note Item`.item_code,
             `tabDelivery Note Item`.qty,
