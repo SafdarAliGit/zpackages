@@ -131,7 +131,7 @@ def update_hs_codes():
         for item in items_with_hs_code:
             frappe.db.sql(
                 """
-                UPDATE `tabSales Invoice Item`
+                UPDATE `tabDelivery Note Item`
                 SET hs_code = %(hs_code)s
                 WHERE item_name = %(item_name)s
                 """,
