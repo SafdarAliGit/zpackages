@@ -40,37 +40,34 @@ def get_columns():
             "fieldname": "customer_po",
             "fieldtype": "Data",
             "width": 150
-        }
-        ,
-        {
-            "label": _("Status"),
-            "fieldname": "status",
-            "fieldtype": "Data",
-            "width": 150
         },
-        {
-            "label": _("Customer"),
-            "fieldname": "customer",
-            "fieldtype": "Link",
-            "options": "Customer",
-            "width": 150
-        }
-        ,
 
         {
             "label": _("Item Code"),
-            "fieldname": "customer_name",
+            "fieldname": "item_code",
+            "fieldtype": "Link",
+            "options": 'Item',
+            "width": 150
+        } ,
+
+        {
+            "label": _("Description"),
+            "fieldname": "description",
             "fieldtype": "Data",
             "width": 150
-        }
-        ,
-
+        } ,
+        {
+            "label": _("Delivery Location"),
+            "fieldname": "delivery_location",
+            "fieldtype": "Data",
+            "width": 150
+        },
         {
             "label": _("Qty"),
             "fieldname": "qty",
             "fieldtype": "Data",
             "width": 150
-        } ,
+        },
 
         {
             "label": _("Rate"),
@@ -80,18 +77,42 @@ def get_columns():
         }
         ,
         {
-            "label": _("Grand Total"),
-            "fieldname": "base_grand_total",
+            "label": _("Amount"),
+            "fieldname": "amount",
             "fieldtype": "Currency",
             "width": 150
         },
 
     {
-        "label": _("Amount"),
-        "fieldname": "amount",
+        "label": _("Rate of Sales Tax"),
+        "fieldname": "rate_of_sales_tax",
         "fieldtype": "Currency",
         "width": 150
-    }
+    },
+        {
+            "label": _("Contract No"),
+            "fieldname": "contract_no",
+            "fieldtype": "Data",
+            "width": 150
+        },
+        {
+            "label": _("Article No"),
+            "fieldname": "article_no",
+            "fieldtype": "Data",
+            "width": 150
+        },
+        {
+            "label": _("Item Group"),
+            "fieldname": "item_group",
+            "fieldtype": "Data",
+            "width": 150
+        },
+        {
+            "label": _("Status"),
+            "fieldname": "status",
+            "fieldtype": "Data",
+            "width": 150
+        }
 
     ]
     return columns
@@ -116,14 +137,15 @@ def get_data(filters):
             `tabDelivery Note`.name AS id,
             `tabDelivery Note`.naming_series AS id_series, 
             `tabDelivery Note`.customer, 
-            `tabDelivery Note`.customer_po_details AS customer_po,
+            `tabDelivery Note Item`.po_no AS customer_po,
             `tabDelivery Note Item`.item_code, 
             `tabDelivery Note Item`.description,
-             `tabDelivery Note`.delivery_location,
+            `tabDelivery Note`.delivery_location,
             `tabDelivery Note Item`.qty,
             `tabDelivery Note Item`.rate,
             `tabDelivery Note Item`.amount,
-            `tabSales Taxes and Charges`.rate AS rate_of_sales_tax,
+            (SELECT DISTINCT `rate` FROM `tabSales Taxes and Charges` WHERE `tabDelivery Note`.name = `tabSales Taxes and Charges`.parent) AS rate_of_sales_tax,
+            `tabDelivery Note Item`.contract_no,
             `tabDelivery Note Item`.contract_no,
             `tabDelivery Note Item`.article_no,
             `tabDelivery Note Item`.item_group,
@@ -133,27 +155,15 @@ def get_data(filters):
         LEFT JOIN
             `tabDelivery Note Item` ON `tabDelivery Note`.name = `tabDelivery Note Item`.parent
         LEFT JOIN 
-            `tabSales Taxes and Charges` ON `tabDelivery Note`.name = `tabSales Taxes and Charges`.parent
+            `tabSales Taxes and Charges` ON `tabDelivery Note Item`.name = `tabSales Taxes and Charges`.parent AND `tabDelivery Note Item`.idx = `tabSales Taxes and Charges`.idx
         WHERE 
-            `tabDelivery Note`.status != 'Cancelled' AND
             {conditions}
-        ORDER BY `tabDelivery Note`.modified DESC
+        ORDER BY 
+            `tabDelivery Note`.modified DESC
     """.format(conditions=get_conditions(filters, "Delivery Note"))
 
     sales_summary_result = frappe.db.sql(sales_summary, filters, as_dict=1)
+
     data.extend(sales_summary_result)
     return data
 
-
-
-
-Description
-Delivery Location
-Qty
-Rate
-Amount
-Rate of Sales Tax
-Contract No
-Article No
-Item Group
-Status
