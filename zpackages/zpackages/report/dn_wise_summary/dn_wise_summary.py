@@ -142,7 +142,7 @@ def get_data(filters):
     sales_summary = """SELECT 
             `tabDelivery Note`.name AS id,
             `tabDelivery Note`.naming_series AS id_series,
-            ``tabDelivery Note`.posting_date AS date, 
+            `tabDelivery Note`.posting_date AS date, 
             `tabDelivery Note`.customer, 
             `tabDelivery Note Item`.po_no AS customer_po,
             `tabDelivery Note Item`.item_code, 
