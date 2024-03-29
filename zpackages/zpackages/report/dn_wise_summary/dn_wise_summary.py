@@ -165,7 +165,7 @@ def get_data(filters):
             `tabSales Taxes and Charges` ON `tabDelivery Note Item`.name = `tabSales Taxes and Charges`.parent AND `tabDelivery Note Item`.idx = `tabSales Taxes and Charges`.idx
         WHERE 
             {conditions} AND
-            `tabDelivery Note`.docstatus = 1
+            `tabDelivery Note`.docstatus <= 1
         ORDER BY 
             `tabDelivery Note`.modified DESC
     """.format(conditions=get_conditions(filters, "Delivery Note"))
