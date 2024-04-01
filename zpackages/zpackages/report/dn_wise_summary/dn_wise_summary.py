@@ -47,6 +47,13 @@ def get_columns():
             "fieldtype": "Data",
             "width": 150
         },
+        {
+            "label": _("Order Type"),
+            "fieldname": "order_type",
+            "fieldtype": "Data",
+            "width": 150
+
+        },
 
         {
             "label": _("Item Code"),
@@ -141,6 +148,7 @@ def get_data(filters):
     data = []
     sales_summary = """SELECT 
             `tabDelivery Note`.name AS id,
+            `tabDelivery Note`.order_type,
             `tabDelivery Note`.naming_series AS id_series,
             `tabDelivery Note`.posting_date AS date, 
             `tabDelivery Note`.customer, 
