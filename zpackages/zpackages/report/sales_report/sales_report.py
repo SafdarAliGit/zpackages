@@ -41,12 +41,7 @@ def get_columns():
             "options": 'Customer',
             "width": 150
         },
-        {
-            "label": _("Customer PO"),
-            "fieldname": "customer_po",
-            "fieldtype": "Data",
-            "width": 150
-        },
+
 
         {
             "label": _("Item Code"),
@@ -90,12 +85,7 @@ def get_columns():
         "fieldtype": "Currency",
         "width": 150
     },
-        {
-            "label": _("Contract No"),
-            "fieldname": "contract_no",
-            "fieldtype": "Data",
-            "width": 150
-        },
+
 
         {
             "label": _("Item Group"),
@@ -134,7 +124,6 @@ def get_data(filters):
             `tabSales Invoice`.naming_series AS id_series,
             `tabSales Invoice`.posting_date AS date, 
             `tabSales Invoice`.customer, 
-            `tabSales Invoice Item`.po_no AS customer_po,
             `tabSales Invoice Item`.item_code, 
             `tabSales Invoice Item`.description,
             `tabSales Invoice Item`.qty,
