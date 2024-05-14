@@ -47,13 +47,6 @@ def get_columns():
             "fieldtype": "Data",
             "width": 150
         },
-        {
-            "label": _("Work Type"),
-            "fieldname": "work_type",
-            "fieldtype": "Data",
-            "width": 150
-
-        },
 
         {
             "label": _("Item Code"),
@@ -69,12 +62,7 @@ def get_columns():
             "fieldtype": "Data",
             "width": 150
         } ,
-        {
-            "label": _("Delivery Location"),
-            "fieldname": "delivery_location",
-            "fieldtype": "Data",
-            "width": 150
-        },
+
         {
             "label": _("Qty"),
             "fieldname": "qty",
@@ -108,12 +96,7 @@ def get_columns():
             "fieldtype": "Data",
             "width": 150
         },
-        {
-            "label": _("Article No"),
-            "fieldname": "article_no",
-            "fieldtype": "Data",
-            "width": 150
-        },
+
         {
             "label": _("Item Group"),
             "fieldname": "item_group",
@@ -147,35 +130,31 @@ def get_conditions(filters, doctype):
 def get_data(filters):
     data = []
     sales_summary = """SELECT 
-            `tabDelivery Note`.name AS id,
-            `tabDelivery Note`.work_type,
-            `tabDelivery Note`.naming_series AS id_series,
-            `tabDelivery Note`.posting_date AS date, 
-            `tabDelivery Note`.customer, 
-            `tabDelivery Note Item`.po_no AS customer_po,
-            `tabDelivery Note Item`.item_code, 
-            `tabDelivery Note Item`.description,
-            `tabDelivery Note`.delivery_location,
-            `tabDelivery Note Item`.qty,
-            `tabDelivery Note Item`.rate,
-            `tabDelivery Note Item`.amount,
-            (SELECT DISTINCT `rate` FROM `tabSales Taxes and Charges` WHERE `tabDelivery Note`.name = `tabSales Taxes and Charges`.parent) AS rate_of_sales_tax,
-            `tabDelivery Note Item`.contract_no,
-            `tabDelivery Note Item`.article_no,
-            `tabDelivery Note Item`.item_group,
-            `tabDelivery Note`.status
+            `tabSales Invoice`.name AS id,
+            `tabSales Invoice`.naming_series AS id_series,
+            `tabSales Invoice`.posting_date AS date, 
+            `tabSales Invoice`.customer, 
+            `tabSales Invoice Item`.po_no AS customer_po,
+            `tabSales Invoice Item`.item_code, 
+            `tabSales Invoice Item`.description,
+            `tabSales Invoice Item`.qty,
+            `tabSales Invoice Item`.rate,
+            `tabSales Invoice Item`.amount,
+            (SELECT DISTINCT `rate` FROM `tabSales Taxes and Charges` WHERE `tabSales Invoice`.name = `tabSales Taxes and Charges`.parent) AS rate_of_sales_tax,
+            `tabSales Invoice Item`.item_group,
+            `tabSales Invoice`.status
         FROM
-            `tabDelivery Note`
+            `tabSales Invoice`
         LEFT JOIN
-            `tabDelivery Note Item` ON `tabDelivery Note`.name = `tabDelivery Note Item`.parent
+            `tabSales Invoice Item` ON `tabSales Invoice`.name = `tabSales Invoice Item`.parent
         LEFT JOIN 
-            `tabSales Taxes and Charges` ON `tabDelivery Note Item`.name = `tabSales Taxes and Charges`.parent AND `tabDelivery Note Item`.idx = `tabSales Taxes and Charges`.idx
+            `tabSales Taxes and Charges` ON `tabSales Invoice Item`.name = `tabSales Taxes and Charges`.parent AND `tabSales Invoice Item`.idx = `tabSales Taxes and Charges`.idx
         WHERE 
             {conditions} AND
-            `tabDelivery Note`.docstatus <= 1
+            `tabSales Invoice`.docstatus <= 1
         ORDER BY 
-            `tabDelivery Note`.modified DESC
-    """.format(conditions=get_conditions(filters, "Delivery Note"))
+            `tabSales Invoice`.modified DESC
+    """.format(conditions=get_conditions(filters, "Sales Invoice"))
 
     sales_summary_result = frappe.db.sql(sales_summary, filters, as_dict=1)
 
