@@ -9,10 +9,11 @@ from frappe.utils import cstr, flt
 from frappe.utils.xlsxutils import handle_html
 
 from erpnext.accounts.report.sales_register.sales_register import get_mode_of_payments
-from erpnext.accounts.report.utils import get_query_columns, get_values_for_columns
+
 from erpnext.selling.report.item_wise_sales_history.item_wise_sales_history import (
 	get_customer_details,
 )
+from zpackages.zpackages.report.utils import get_query_columns
 
 
 def execute(filters=None):
