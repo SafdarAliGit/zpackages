@@ -78,6 +78,9 @@ frappe.ui.form.on("Sales Order", {
             }).addClass("btn-primary");
         }
     },
+    work_type: function (frm) {
+        set_weight(frm);
+    },
 
     get_items_from_internal_purchase_order(frm) {
         frm.add_custom_button(__('Purchase Order'), () => {
@@ -225,6 +228,14 @@ frappe.ui.form.on("Sales Order", {
 });
 
 frappe.ui.form.on("Sales Order Item", {
+
+    qty: function (frm, cdt, cdn) {
+        if (flt(frm.doc.percentage) > 0 && flt(frm.doc.avg_rate) > 0) {
+            var row = locals[cdt][cdn];
+            frappe.model.set_value(cdt, cdn, "weight", (row.amount * (flt(frm.doc.percentage) / 100))/flt(frm.doc.avg_rate));
+        }
+        set_total_weight(frm);
+    },
 
     item_code: function (frm, cdt, cdn) {
         var row = locals[cdt][cdn];
@@ -464,7 +475,7 @@ erpnext.selling.SalesOrderController = class SalesOrderController extends erpnex
                             fieldtype: 'Float', fieldname: 'pending_qty', reqd: 1, label: __('Qty'), in_list_view: 1
                         }, {
                             fieldtype: 'Data',
-                            fieldname: 'sales_order_item',
+                            fieldname: 'items',
                             reqd: 1,
                             label: __('Sales Order Item'),
                             hidden: 1
@@ -850,5 +861,26 @@ erpnext.selling.SalesOrderController = class SalesOrderController extends erpnex
         });
     }
 };
+
+function set_weight(frm) {
+ 
+   frm.doc.items.forEach(d => {
+        if (flt(frm.doc.percentage) > 0 && flt(frm.doc.avg_rate) > 0) {
+            frappe.model.set_value(d.doctype, d.name, "weight", (d.amount * (flt(frm.doc.percentage) / 100))/flt(frm.doc.avg_rate));
+        }
+   })
+   set_total_weight(frm);
+   
+}
+
+function set_total_weight(frm) {
+    var total_weight = 0;
+    frm.doc.items.forEach(d => {
+        if (flt(d.weight) > 0) {
+            total_weight += d.weight;
+        }
+    })
+    frm.set_value("total_weight", total_weight);
+}
 
 extend_cscript(cur_frm.cscript, new erpnext.selling.SalesOrderController({frm: cur_frm}));
