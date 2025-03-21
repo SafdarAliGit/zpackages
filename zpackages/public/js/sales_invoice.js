@@ -10,7 +10,7 @@ frappe.ui.form.on("Sales Invoice", {
 
 frappe.ui.form.on("Sales Invoice Item", {
     qty: function (frm, cdt, cdn) {
-        if (flt(frm.doc.percentage) > 0 && flt(frm.doc.avg_rate) > 0) {
+        if (flt(frm.doc.avg_rate) > 0) {
             var row = locals[cdt][cdn];
             frappe.model.set_value(cdt, cdn, "weight", (row.amount * (flt(frm.doc.percentage) / 100))/flt(frm.doc.avg_rate));
         }
@@ -21,7 +21,7 @@ frappe.ui.form.on("Sales Invoice Item", {
 function set_weight(frm) {
  
     frm.doc.items.forEach(d => {
-         if (flt(frm.doc.percentage) > 0 && flt(frm.doc.avg_rate) > 0) {
+         if (flt(frm.doc.avg_rate) > 0) {
              frappe.model.set_value(d.doctype, d.name, "weight", (d.amount * (flt(frm.doc.percentage) / 100))/flt(frm.doc.avg_rate));
          }
     })
