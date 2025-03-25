@@ -1,7 +1,7 @@
 frappe.ui.form.on("Sales Invoice", {
 
     refresh: function(frm) {
-        set_weight(frm);
+        // set_weight(frm);
     },
     work_type: function (frm) {
         set_weight(frm);
