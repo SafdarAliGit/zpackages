@@ -8,9 +8,9 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "hs_code",
-  "parent_hs_code",
   "is_group",
+  "parent_hs_code",
+  "hs_code",
   "lft",
   "rgt"
  ],
@@ -24,6 +24,7 @@
    "unique": 1
   },
   {
+   "depends_on": "eval:doc.is_group",
    "fieldname": "parent_hs_code",
    "fieldtype": "Link",
    "label": "Parent HS Code",
@@ -58,6 +59,7 @@
    "label": "Is Group"
   },
   {
+   "depends_on": "eval:doc.is_group",
    "fieldname": "parent_hs_code",
    "fieldtype": "Link",
    "label": "Parent HS Code",
@@ -67,7 +69,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-07-29 08:10:07.680646",
+ "modified": "2025-07-29 09:56:52.554129",
  "modified_by": "Administrator",
  "module": "zpackages",
  "name": "HS Code",
