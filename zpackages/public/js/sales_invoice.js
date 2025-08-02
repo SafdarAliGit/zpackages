@@ -52,9 +52,20 @@ function set_weight(frm) {
     })
     frm.set_value("total_weight", total_weight);
 }
-
-function copy_hs_code_to_child(frm) {
-    frm.doc.items.forEach(d => {
-        frappe.model.set_value(d.doctype, d.name, "hs_code", frm.doc.hs_code);
-    })
-}
+async function copy_hs_code_to_child(frm) {
+    const hs = frm.doc.hs_code;
+    const res = hs
+      ? await frappe.db.get_value("HS Code", { name: hs }, "uom")
+      : { message: null };
+  
+    const parent_uom = res?.message?.uom || "";
+    // REVIEW slipperiness: {name: hs} can be replaced with "hs" if that's doc name key
+  
+    frm.doc.items.forEach(row => {
+      frappe.model.set_value(row.doctype, row.name, "hs_code", hs || "");
+      frappe.model.set_value(row.doctype, row.name, "fbr_uom", parent_uom);
+    });
+  
+    frm.refresh_field("items");
+  }
+  

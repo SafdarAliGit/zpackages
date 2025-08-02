@@ -13,7 +13,8 @@
   "is_group",
   "lft",
   "rgt",
-  "old_parent"
+  "old_parent",
+  "uom"
  ],
  "fields": [
   {
@@ -70,12 +71,17 @@
    "fieldtype": "Link",
    "label": "Parent HS Code",
    "options": "HS Code"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Data",
+   "label": "UOM"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-07-30 16:50:29.890501",
+ "modified": "2025-08-02 12:22:11.008622",
  "modified_by": "Administrator",
  "module": "zpackages",
  "name": "HS Code",
