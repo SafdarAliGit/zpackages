@@ -104,11 +104,11 @@ override_doctype_class = {
 # ---------------
 # Hook on document methods and events
 
-doc_events = {
-	"Delivery Note": {
-		"on_submit": "zpackages.overrides.delivery_note_overrides.custom_on_submit",
-	}
-}
+# doc_events = {
+# 	"Delivery Note": {
+# 		"on_submit": "zpackages.overrides.delivery_note_overrides.custom_on_submit",
+# 	}
+# }
 
 # Scheduled Tasks
 # ---------------
