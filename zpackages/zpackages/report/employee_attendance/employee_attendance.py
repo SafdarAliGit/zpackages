@@ -9,6 +9,12 @@ def execute(filters=None):
 
 def get_columns():
     return [
+		{
+            "label": "Date",
+            "fieldname": "attendance_date",
+            "fieldtype": "Date",
+            "width": 100,
+        },
         {
             "label": "Employee",
             "fieldname": "employee",
@@ -76,12 +82,7 @@ def get_columns():
             "fieldtype": "Float",
             "width": 110,
         },
-        {
-            "label": "Date",
-            "fieldname": "attendance_date",
-            "fieldtype": "Date",
-            "width": 100,
-        },
+        
         {
             "label": "Status",
             "fieldname": "status",
