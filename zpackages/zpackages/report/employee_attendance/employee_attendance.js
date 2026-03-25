@@ -1,7 +1,7 @@
 // Client-side filters and column formatters
 // for Employee Attendance Report
 
-frappe.query_reports["Employee Attendance Report"] = {
+frappe.query_reports["Employee Attendance"] = {
     filters: [
         {
             fieldname: "from_date",
