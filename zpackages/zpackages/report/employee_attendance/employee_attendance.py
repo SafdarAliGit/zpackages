@@ -9,6 +9,7 @@ def execute(filters=None):
 
 def get_columns():
     return [
+		{"label": "Date",             "fieldname": "attendance_date",   "fieldtype": "Date",  "width": 100},
         {"label": "Employee",         "fieldname": "employee",          "fieldtype": "Link", "options": "Employee", "width": 120},
         {"label": "Employee Name",    "fieldname": "employee_name",     "fieldtype": "Data",  "width": 150},
         {"label": "Branch",           "fieldname": "branch",            "fieldtype": "Data",  "width": 120},
@@ -19,7 +20,7 @@ def get_columns():
         {"label": "Check In Time",    "fieldname": "check_in_time",     "fieldtype": "Data",  "width": 110},
         {"label": "Check Out Time",   "fieldname": "check_out_time",    "fieldtype": "Data",  "width": 110},
         {"label": "Working Hours",    "fieldname": "working_hours",     "fieldtype": "Float", "width": 100},
-        {"label": "Date",             "fieldname": "attendance_date",   "fieldtype": "Date",  "width": 100},
+        
         {"label": "Status",           "fieldname": "status",            "fieldtype": "Data",  "width": 90},
     ]
 
